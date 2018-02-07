@@ -18,7 +18,7 @@ public class PeliculaDAO extends GenericDAO<Pelicula> {
 	 * Metodo que localiza una pelicula por su ID.
 	 * @param id ID para localizar la pelicula.
 	 * @return Devuelve la pelicula localiza.
-	 * @throws LmdbException
+	 * @throws LmdbException Excepcion de LocalMovieDatabase.
 	 */
 	public Pelicula localizar(int id) throws LmdbException {
 		Session sesion = HibernateUtil.getSessionFactory().getCurrentSession();
@@ -39,7 +39,7 @@ public class PeliculaDAO extends GenericDAO<Pelicula> {
 	/**
 	 * Metodo que lista las peliculas.
 	 * @return Devuelve una lista de peliculas.
-	 * @throws LmdbException
+	 * @throws LmdbException Excepcion de LocalMovieDatabase.
 	 */
 	@SuppressWarnings("unchecked")
 	public List<Pelicula> listarPeliculas() throws LmdbException {
@@ -62,7 +62,7 @@ public class PeliculaDAO extends GenericDAO<Pelicula> {
 	 * Metodo que lista las peliculas por anho.
 	 * @param anho Anho por el que lista.
 	 * @return Devuelve una lista de peliculas.
-	 * @throws LmdbException
+	 * @throws LmdbException Excepcion de LocalMovieDatabase.
 	 */
 	@SuppressWarnings("unchecked")
 	public List<Pelicula> listarPeliculasPorAnho(String anho) throws LmdbException {
@@ -85,7 +85,7 @@ public class PeliculaDAO extends GenericDAO<Pelicula> {
 	 * Metodo que lista las peliculas por pais.
 	 * @param indicePais Indice de pais por el que lista.
 	 * @return Devuelve una lista de peliculas.
-	 * @throws LmdbException
+	 * @throws LmdbException Excepcion de LocalMovieDatabase.
 	 */
 	@SuppressWarnings("unchecked")
 	public List<Pelicula> listarPeliculasPorPais(int indicePais) throws LmdbException {
@@ -108,7 +108,7 @@ public class PeliculaDAO extends GenericDAO<Pelicula> {
 	 * Metodo que lista las peliculas por genero.
 	 * @param indiceGenero Indice de genero por el que lista.
 	 * @return Devuelve una lista de peliculas.
-	 * @throws LmdbException
+	 * @throws LmdbException Excepcion de LocalMovieDatabase.
 	 */
 	@SuppressWarnings("unchecked")
 	public List<Pelicula> listarPeliculasPorGenero(int indiceGenero) throws LmdbException {
@@ -132,7 +132,7 @@ public class PeliculaDAO extends GenericDAO<Pelicula> {
 	 * @param duracionMinima Duracion minima.
 	 * @param duracionMaxima Duracion maxima.
 	 * @return Devuelve una lista.
-	 * @throws LmdbException
+	 * @throws LmdbException Excepcion de LocalMovieDatabase.
 	 */
 	@SuppressWarnings("unchecked")
 	public List<Pelicula> listarPeliculasPorRangoDuracion(int duracionMinima, int duracionMaxima) throws LmdbException {

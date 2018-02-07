@@ -17,7 +17,7 @@ public class ActorDAO extends GenericDAO<Actor> {
 	 * Metodo que localiza un actor/actriz mediante su ID.
 	 * @param id ID para localizar al actor/actriz.
 	 * @return Devuelve el actor/actriz localizado.
-	 * @throws LmdbException
+	 * @throws LmdbException Excepcion de LocalMovieDatabase.
 	 */
 	public Actor localizar(int id) throws LmdbException {
 		Session sesion = HibernateUtil.getSessionFactory().getCurrentSession();
@@ -38,7 +38,7 @@ public class ActorDAO extends GenericDAO<Actor> {
 	/**
 	 * Metodo que lista los actores/actrices.
 	 * @return Devuelve una lista de los actores/actrices.
-	 * @throws LmdbException
+	 * @throws LmdbException Excepcion de LocalMovieDatabase.
 	 */
 	@SuppressWarnings("unchecked")
 	public List<Actor> listarActores() throws LmdbException {

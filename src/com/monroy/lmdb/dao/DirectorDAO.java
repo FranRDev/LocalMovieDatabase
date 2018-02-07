@@ -17,7 +17,7 @@ public class DirectorDAO extends GenericDAO<Director> {
 	 * Metodo que localiza un director/a mediante su ID.
 	 * @param id ID del director/a a localizar.
 	 * @return Devuelve el director/a localizado.
-	 * @throws LmdbException
+	 * @throws LmdbException Excepcion de LocalMovieDatabase.
 	 */
 	public Director localizar(int id) throws LmdbException {
 		Session sesion = HibernateUtil.getSessionFactory().getCurrentSession();
@@ -38,7 +38,7 @@ public class DirectorDAO extends GenericDAO<Director> {
 	/**
 	 * Metodo que lista los directores/as.
 	 * @return Devuelve una lista de directores/as.
-	 * @throws LmdbException
+	 * @throws LmdbException Excepcion de LocalMovieDatabase.
 	 */
 	@SuppressWarnings("unchecked")
 	public List<Director> listarDirectores() throws LmdbException {

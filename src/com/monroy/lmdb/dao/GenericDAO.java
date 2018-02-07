@@ -9,7 +9,7 @@ import com.monroy.lmdb.persistencia.HibernateUtil;
 /**
  * Clase que gestiona las transacciones genericas.
  * @author Francisco Rodríguez García
- * @param <T>
+ * @param <T> Clase de la entidad.
  */
 public class GenericDAO<T> {
 	// VARIABLES
@@ -20,7 +20,7 @@ public class GenericDAO<T> {
 	/**
 	 * Metodo que guarda una entidad.
 	 * @param entidad Entidad a guardar.
-	 * @throws LmdbException 
+	 * @throws LmdbException Excepcion de LocalMovieDatabase.
 	 */
 	public void guardar(T entidad) throws LmdbException {
 		try {
@@ -46,7 +46,7 @@ public class GenericDAO<T> {
 	/**
 	 * Metodo que borra una entidad.
 	 * @param entidad Entidad a borrar.
-	 * @throws LmdbException
+	 * @throws LmdbException Excepcion de LocalMovieDatabase.
 	 */
 	public void borrar(T entidad) throws LmdbException {
 		try {
@@ -72,7 +72,7 @@ public class GenericDAO<T> {
 	/**
 	 * Metodo que actualiza una entidad.
 	 * @param entidad Entidad a actualizar.
-	 * @throws LmdbException
+	 * @throws LmdbException Excepcion de LocalMovieDatabase.
 	 */
 	public void actualizar(T entidad) throws LmdbException {
 		try {

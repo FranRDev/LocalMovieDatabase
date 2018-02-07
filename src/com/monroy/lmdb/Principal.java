@@ -1578,7 +1578,7 @@ public class Principal extends Application {
 			pais = Pais.ITALIA;
 			break;
 		case 6:
-			pais = Pais.ESPAÑA;
+			pais = Pais.ESPANHA;
 			break;
 		case 7:
 			pais = Pais.ALEMANIA;
@@ -1621,7 +1621,7 @@ public class Principal extends Application {
 			pais = Pais.ITALIA;
 			break;
 		case 6:
-			pais = Pais.ESPAÑA;
+			pais = Pais.ESPANHA;
 			break;
 		case 7:
 			pais = Pais.ALEMANIA;
@@ -1715,8 +1715,8 @@ public class Principal extends Application {
 	}
 	
 	/**
-	 * Metodo que solicita el genero.
-	 * @param mensaje Mensaje al solicitar.
+	 * Metodo que solicita el genero por un indice.
+	 * @param indice Indice del genero.
 	 * @return Devuelve el genero solicitado.
 	 */
 	public static Genero solicitarGenero(int indice) {
