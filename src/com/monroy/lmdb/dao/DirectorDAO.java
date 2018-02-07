@@ -17,7 +17,7 @@ public class DirectorDAO extends GenericDAO<Director> {
 		
 		if (director == null) {
 			sesion.getTransaction().rollback();
-			throw new LmdbException("No existe el director.");
+			throw new LmdbException("No existe director con ID: " + id + ".");
 		}
 		
 		sesion.getTransaction().commit();

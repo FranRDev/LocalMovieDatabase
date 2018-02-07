@@ -4,7 +4,15 @@ import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Set;
+import java.util.regex.Pattern;
 import javax.persistence.*;
+import javax.validation.Valid;
+import javax.validation.constraints.AssertTrue;
+import javax.validation.constraints.Digits;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
+import org.hibernate.validator.constraints.NotBlank;
 
 @Entity
 @Table(name="PELICULA")
@@ -17,25 +25,39 @@ public class Pelicula implements Serializable {
 	@GeneratedValue(strategy=GenerationType.AUTO)
 	private int id;
 	
+	@NotNull
+	@Size(min=1,max=100)
+	@NotBlank
 	@Column(name="TITULO_ESPANHA")
 	private String tituloEspanha;
 	
+	@NotNull
+	@Size(min=1,max=100)
+	@NotBlank
 	@Column(name="TITULO_ORIGINAL")
 	private String tituloOriginal;
 	
+	@NotNull
 	@Column(name="ANHO")
 	private Date anho;
 	
+	@NotNull
+	@Digits(fraction = 0, integer = 3)
+	@Min(value = 1)
 	@Column(name="DURACION")
 	private int duracion;
 	
+	@NotNull
 	@Enumerated(EnumType.ORDINAL)
 	private Pais pais;
 	
+	@NotNull
+	@Valid
 	@ManyToOne
 	@JoinColumn(name="ID_DIRECTOR")
 	private Director director;
 	
+	@NotNull
 	@Enumerated(EnumType.ORDINAL)
 	private Genero genero;
 	
@@ -179,5 +201,20 @@ public class Pelicula implements Serializable {
 		}
 		
 		return cadenaActores.toString();
+	}
+	
+	@AssertTrue(message="El año no es válido")
+	private boolean isValidoAnho() {
+		boolean esValido;
+		String expresionRegular = "\\s\\d{4}";
+		
+		if (Pattern.matches(expresionRegular, this.anho.toString())) {
+			esValido = true;
+			
+		} else {
+			esValido = false;
+		}
+		
+		return esValido;
 	}
 }

@@ -3,6 +3,10 @@ package com.monroy.lmdb.persistencia;
 import java.io.Serializable;
 import java.util.List;
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
+
+import org.hibernate.validator.constraints.NotBlank;
 
 @Entity
 @Table(name="ACTOR")
@@ -15,6 +19,9 @@ public class Actor implements Serializable {
 	@GeneratedValue(strategy=GenerationType.AUTO)
 	private int id;
 	
+	@NotNull
+	@NotBlank
+	@Size(min=1,max=50)
 	@Column(name="NOMBRE")
 	private String nombre;
 	

@@ -741,20 +741,33 @@ public class Principal extends Application {
 		Pais pais;
 		Genero genero;
 		Set<PeliculaActor> actores;
+		boolean hayError;
 		
-		tituloEspanha = Principal.solicitarCadena(">>> Título en España: ");
-		tituloOriginal = Principal.solicitarCadena(">>> Título original: ");
-		anho = Principal.solicitarAnho(">>> Año: ");
-		duracion = Principal.solicitarEntero(">>> Duración: ");
-		pais = Principal.solicitarPais(">>> Índice de país: ");
-		director = Principal.tratarDirectorPelicula();
-		genero = Principal.solicitarGenero(">>> Índice de género: ");
-		actores = null;
+		do {
+			hayError = false;
+			
+			try {
+				tituloEspanha = Principal.solicitarCadena(">>> Título en España: ");
+				tituloOriginal = Principal.solicitarCadena(">>> Título original: ");
+				anho = Principal.solicitarAnho(">>> Año: ");
+				duracion = Principal.solicitarEntero(">>> Duración: ");
+				pais = Principal.solicitarPais(">>> Índice de país: ");
+				director = Principal.tratarDirectorPelicula();
+				genero = Principal.solicitarGenero(">>> Índice de género: ");
+				actores = null;
+				
+				nuevaPelicula = new Pelicula(tituloEspanha, tituloOriginal, anho, duracion, pais, director, genero, actores);
+				
+				peliculaDao.guardar(nuevaPelicula);
+				
+				System.out.println("Se ha añadido la película " + tituloEspanha + ".");
+				
+			} catch (LmdbException e) {
+				System.out.println(e.getMessage());
+				hayError = true;
+			}
+		} while (hayError);
 		
-		nuevaPelicula = new Pelicula(tituloEspanha, tituloOriginal, anho, duracion, pais, director, genero, actores);
-		
-		peliculaDao.guardar(nuevaPelicula);
-		System.out.println("Se ha añadido la película " + tituloEspanha + ".");
 		Principal.mostrarMenuPelicula();
 	}
 
@@ -839,16 +852,25 @@ public class Principal extends Application {
 			try {
 				director = directorDao.localizar(id);
 			} catch (LmdbException e) {
-				System.out.println("Error. No existe el director/a con ID " + id + ".");
+				System.out.println(e.getMessage());
 				Principal.tratarDirectorPelicula();
 			}
 			break;
 		case 2:
 			// Crear un nuevo director/a.
-			nombre = solicitarCadena(">>> Nombre del director/a: ");
-			director = new Director(nombre);
-			
-			directorDao.guardar(director);
+			do {
+				hayError = false;
+				
+				try {
+					nombre = solicitarCadena(">>> Nombre del director/a: ");
+					director = new Director(nombre);
+					
+					directorDao.guardar(director);
+				} catch (LmdbException e) {
+					System.out.println(e.getMessage());
+					hayError = true;
+				}
+			} while (hayError);
 			break;
 		default:
 			break;
@@ -1011,11 +1033,24 @@ public class Principal extends Application {
 	private static void altaDirector() {
 		Director director;
 		String nombre;
+		boolean hayError;
 		
-		nombre = solicitarCadena(">>> Nombre del director/a: ");
-		director = new Director(nombre);
+		do {
+			hayError = false;
+			
+			try {
+				nombre = solicitarCadena(">>> Nombre del director/a: ");
+				director = new Director(nombre);
+				
+				directorDao.guardar(director);
+				
+				System.out.println(">>> Se ha dado de alta al director: " + director.getNombre() + ".");
+			} catch (LmdbException e) {
+				System.out.println(e.getMessage());
+				hayError = true;
+			}
+		} while (hayError);
 		
-		directorDao.guardar(director);
 		Principal.mostrarMenuDirector();
 	}
 	
@@ -1199,12 +1234,25 @@ public class Principal extends Application {
 	private static void altaActor() {
 		Actor actor;
 		String nombre;
+		boolean hayError;
 		
-		System.out.println();
-		nombre = solicitarCadena(">>> Nombre del actor/actriz: ");
-		actor = new Actor(nombre);
+		do {
+			hayError = false;
+			
+			try {
+				nombre = solicitarCadena(">>> Nombre del actor/actriz: ");
+				actor = new Actor(nombre);
+				
+				actorDao.guardar(actor);
+				
+				System.out.println(">>> Se ha dado de alta al actor/actriz: " + actor.getNombre() + ".");
+				
+			} catch (LmdbException e) {
+				System.out.println(e.getMessage());
+				hayError = true;
+			}
+		} while (hayError);
 		
-		actorDao.guardar(actor);
 		Principal.mostrarMenuActor();
 	}
 	
