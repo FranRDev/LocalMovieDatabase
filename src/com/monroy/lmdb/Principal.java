@@ -11,7 +11,7 @@
  *************************************************************************************************
  */
 package com.monroy.lmdb;
-	
+
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
@@ -55,7 +55,7 @@ public class Principal extends Application {
 	//========================================================================================//
 	private static final int OPCION_MINIMA = 1;
 	private static final int OPCION_MAXIMA_PRINCIPAL = 4;
-	private static final int OPCION_MAXIMA_PELICULA = 5;
+	private static final int OPCION_MAXIMA_PELICULA = 9;
 	private static final int OPCION_MAXIMA_DIRECTOR = 5;
 	private static final int OPCION_MAXIMA_DIRECTOR_PELICULA = 2;
 	private static final int OPCION_MAXIMA_ACTOR = 5;
@@ -70,7 +70,7 @@ public class Principal extends Application {
 	private static final int ANCHO_MINIMO_CELDA_DIRECTOR = 14;
 	private static final int ANCHO_MINIMO_CELDA_GENERO = 9;
 	private static final int ANCHO_MINIMO_CELDA_NOMBRE = 9;
-	private static final int ANCHO_MINIMO_CELDA_REPARTO = 10;
+	private static final int ANCHO_MINIMO_CELDA_REPARTO = 14;
 	
 	//========================================================================================//
 	// VRIABLES ESTÁTICAS
@@ -173,10 +173,14 @@ public class Principal extends Application {
 		System.out.println("|| MENÚ PELÍCULAS ||");
 		System.out.println("====================");
 		System.out.println("[1] Consultar todas las películas");
-		System.out.println("[2] Añadir una película");
-		System.out.println("[3] Modificar una película");
-		System.out.println("[4] Eliminar una película");
-		System.out.println("[5] Volver al menú principal");
+		System.out.println("[2] Consultar películas por año");
+		System.out.println("[3] Consultar películas por país");
+		System.out.println("[4] Consultar películas por género");
+		System.out.println("[5] Consultar películas por rango de duración");
+		System.out.println("[6] Añadir una película");
+		System.out.println("[7] Modificar una película");
+		System.out.println("[8] Eliminar una película");
+		System.out.println("[9] Volver al menú principal");
 		
 		opcion = Principal.solicitarOpcion(OPCION_MAXIMA_PELICULA);
 		Principal.tratarOpcionMenuPelicula(opcion);
@@ -189,27 +193,47 @@ public class Principal extends Application {
 	private static void tratarOpcionMenuPelicula(int opcion) {
 		switch (opcion) {
 		case 1:
-			// [1] Consultar las películas.
+			// [1] Consultar todas las películas
 			System.out.println();
 			Principal.mostrarPeliculas();
 			break;
 		case 2:
-			// [2] Añadir una película.
+			// [2] Consultar películas por año
+			System.out.println();
+			Principal.mostrarPeliculasPorAnho();
+			break;
+		case 3:
+			// [3] Consultar películas por país
+			System.out.println();
+			Principal.mostrarPeliculasPorPais();
+			break;
+		case 4:
+			// [4] Consultar películas por género
+			System.out.println();
+			Principal.mostrarPeliculasPorGenero();
+			break;
+		case 5:
+			// [5] Consultar películas por rango de duración
+			System.out.println();
+			Principal.mostrarPeliculasPorRangoDuracion();
+			break;
+		case 6:
+			// [6] Añadir una película
 			System.out.println();
 			Principal.altaPelicula();
 			break;
-		case 3:
-			// [3] Modificar una película.
+		case 7:
+			// [7] Modificar una película
 			System.out.println();
 			Principal.modificarPelicula();
 			break;
-		case 4:
-			// [4] Eliminar una película.
+		case 8:
+			// [8] Eliminar una película
 			System.out.println();
 			Principal.bajaPelicula();
 			break;
 		default:
-			// [5] Volver al menú principal.
+			// [9] Volver al menú principal
 			System.out.println();
 			Principal.mostrarMenuPrincipal();
 			break;
@@ -223,7 +247,7 @@ public class Principal extends Application {
 		List<Pelicula> listaPeliculas;
 		SimpleDateFormat formatoAnho;
 		int maximoTituloEspanha, maximoTituloOriginal, maximoPais, maximoDirector, maximoGenero, maximoReparto;
-		String director;
+		String director, reparto;
 		
 		try {
 			listaPeliculas = peliculaDao.listarPeliculas();
@@ -284,8 +308,382 @@ public class Principal extends Application {
 					director = "Sin asignar";
 				}
 				
+				if (pelicula.cadenaActores().length() != 0) {
+					reparto = pelicula.cadenaActores();
+				} else {
+					reparto = "Sin asignar";
+				}
+				
 				System.out.printf("%-" + ANCHO_MINIMO_CELDA_ID + "s%-" + maximoTituloEspanha + "s%-" + maximoTituloOriginal + "s%-" + ANCHO_MINIMO_CELDA_ANHO + "s%-" + ANCHO_MINIMO_CELDA_DURACION + "s%-" + maximoPais + "s%-" + maximoDirector + "s%-" + maximoGenero + "s%-" + maximoReparto + "s\n",
-						" " + pelicula.getId(), "| " + pelicula.getTituloEspanha(), "| " + pelicula.getTituloOriginal(), "| " + Integer.parseInt(formatoAnho.format(pelicula.getAnho())), "| " + pelicula.getDuracion() + " min.", "| " + pelicula.getPais().toString(), "| " + director, "| " + pelicula.getGenero().toString(), "| " + pelicula.cadenaActores());
+						" " + pelicula.getId(), "| " + pelicula.getTituloEspanha(), "| " + pelicula.getTituloOriginal(), "| " + Integer.parseInt(formatoAnho.format(pelicula.getAnho())), "| " + pelicula.getDuracion() + " min.", "| " + pelicula.getPais().toString(), "| " + director, "| " + pelicula.getGenero().toString(), "| " + reparto);
+				
+				System.out.printf("%-" + ANCHO_MINIMO_CELDA_ID + "s%-" + maximoTituloEspanha + "s%-" + maximoTituloOriginal + "s%-" + ANCHO_MINIMO_CELDA_ANHO + "s%-" + ANCHO_MINIMO_CELDA_DURACION + "s%-" + maximoPais + "s%-" + maximoDirector + "s%-" + maximoGenero + "s%-" + maximoReparto + "s\n",
+						crearCadenaGuion(ANCHO_MINIMO_CELDA_ID), crearCadenaGuion(maximoTituloEspanha), crearCadenaGuion(maximoTituloOriginal), crearCadenaGuion(ANCHO_MINIMO_CELDA_ANHO), crearCadenaGuion(ANCHO_MINIMO_CELDA_DURACION), crearCadenaGuion(maximoPais), crearCadenaGuion(maximoDirector), crearCadenaGuion(maximoGenero), crearCadenaGuion(maximoReparto));
+				
+			}
+		} catch (LmdbException e) {
+			System.out.println(e.getMessage());
+		}
+		
+		Principal.mostrarMenuPelicula();
+	}
+	
+	/**
+	 * Metodo que muestra todas las peliculas segun un anho.
+	 */
+	private static void mostrarPeliculasPorAnho() {
+		List<Pelicula> listaPeliculas;
+		SimpleDateFormat formatoAnho;
+		int maximoTituloEspanha, maximoTituloOriginal, maximoPais, maximoDirector, maximoGenero, maximoReparto;
+		String director, reparto;
+		Date anho;
+		
+		try {
+			formatoAnho = new SimpleDateFormat("yyyy");
+			anho = solicitarAnho(">>> Año de la consulta: ");
+			listaPeliculas = peliculaDao.listarPeliculasPorAnho(formatoAnho.format(anho));
+			
+			maximoTituloEspanha = ANCHO_MINIMO_CELDA_TITULO_ESPANHA;
+			maximoTituloOriginal = ANCHO_MINIMO_CELDA_TITULO_ORIGINAL;
+			maximoPais = ANCHO_MINIMO_CELDA_PAIS;
+			maximoDirector = ANCHO_MINIMO_CELDA_DIRECTOR;
+			maximoGenero = ANCHO_MINIMO_CELDA_GENERO;
+			maximoReparto = ANCHO_MINIMO_CELDA_REPARTO;
+			
+			for (Pelicula pelicula : listaPeliculas) {
+				if (pelicula.getTituloEspanha().length() + 2 >= maximoTituloEspanha) {
+					maximoTituloEspanha = pelicula.getTituloEspanha().length() + 3;
+				}
+				
+				if (pelicula.getTituloOriginal().length() + 2 >= maximoTituloOriginal) {
+					maximoTituloOriginal = pelicula.getTituloOriginal().length() + 3;
+				}
+				
+				if (pelicula.getPais().toString().length() + 2 >= maximoPais) {
+					maximoPais = pelicula.getPais().toString().length() + 3;
+				}
+				
+				if (pelicula.getDirector() != null) {
+					if (pelicula.getDirector().getNombre().length() + 2 >= maximoDirector) {
+						maximoDirector = pelicula.getDirector().getNombre().length() + 3;
+					}
+				}
+				
+				if (pelicula.getGenero().toString().length() + 2 >= maximoGenero) {
+					maximoGenero = pelicula.getGenero().toString().length() + 3;
+				}
+				
+				if (pelicula.cadenaActores().length() + 2 >= maximoReparto) {
+					maximoReparto = pelicula.cadenaActores().length() + 3;
+				}
+			}
+			
+			System.out.println("========================================");
+			System.out.println("|| LISTADO DE PELÍCULAS POR AÑO: " + String.valueOf(formatoAnho.format(anho)) + " ||");
+			System.out.println("========================================");
+			
+			System.out.printf("%-" + ANCHO_MINIMO_CELDA_ID + "s%-" + maximoTituloEspanha + "s%-" + maximoTituloOriginal + "s%-" + ANCHO_MINIMO_CELDA_ANHO + "s%-" + ANCHO_MINIMO_CELDA_DURACION + "s%-" + maximoPais + "s%-" + maximoDirector + "s%-" + maximoGenero + "s%-" + maximoReparto + "s\n",
+					crearCadenaDobleGuion(ANCHO_MINIMO_CELDA_ID), crearCadenaDobleGuion(maximoTituloEspanha), crearCadenaDobleGuion(maximoTituloOriginal), crearCadenaDobleGuion(ANCHO_MINIMO_CELDA_ANHO), crearCadenaDobleGuion(ANCHO_MINIMO_CELDA_DURACION), crearCadenaDobleGuion(maximoPais), crearCadenaDobleGuion(maximoDirector), crearCadenaDobleGuion(maximoGenero), crearCadenaDobleGuion(maximoReparto));
+			
+			System.out.printf("%-" + ANCHO_MINIMO_CELDA_ID + "s%-" + maximoTituloEspanha + "s%-" + maximoTituloOriginal + "s%-" + ANCHO_MINIMO_CELDA_ANHO + "s%-" + ANCHO_MINIMO_CELDA_DURACION + "s%-" + maximoPais + "s%-" + maximoDirector + "s%-" + maximoGenero + "s%-" + maximoReparto + "s\n",
+					" ID", "| TÍTULO EN ESPAÑA", "| TÍTULO ORIGINAL", "| AÑO", "| DURACIÓN", "| PAÍS", "| DIRECTOR", "| GÉNERO", "| REPARTO");
+			
+			System.out.printf("%-" + ANCHO_MINIMO_CELDA_ID + "s%-" + maximoTituloEspanha + "s%-" + maximoTituloOriginal + "s%-" + ANCHO_MINIMO_CELDA_ANHO + "s%-" + ANCHO_MINIMO_CELDA_DURACION + "s%-" + maximoPais + "s%-" + maximoDirector + "s%-" + maximoGenero + "s%-" + maximoReparto + "s\n",
+					crearCadenaDobleGuion(ANCHO_MINIMO_CELDA_ID), crearCadenaDobleGuion(maximoTituloEspanha), crearCadenaDobleGuion(maximoTituloOriginal), crearCadenaDobleGuion(ANCHO_MINIMO_CELDA_ANHO), crearCadenaDobleGuion(ANCHO_MINIMO_CELDA_DURACION), crearCadenaDobleGuion(maximoPais), crearCadenaDobleGuion(maximoDirector), crearCadenaDobleGuion(maximoGenero), crearCadenaDobleGuion(maximoReparto));
+			
+			for (Pelicula pelicula : listaPeliculas) {
+				if (pelicula.getDirector() != null) {
+					director = pelicula.getDirector().getNombre();
+				} else {
+					director = "Sin asignar";
+				}
+				
+				if (pelicula.cadenaActores().length() != 0) {
+					reparto = pelicula.cadenaActores();
+				} else {
+					reparto = "Sin asignar";
+				}
+				
+				System.out.printf("%-" + ANCHO_MINIMO_CELDA_ID + "s%-" + maximoTituloEspanha + "s%-" + maximoTituloOriginal + "s%-" + ANCHO_MINIMO_CELDA_ANHO + "s%-" + ANCHO_MINIMO_CELDA_DURACION + "s%-" + maximoPais + "s%-" + maximoDirector + "s%-" + maximoGenero + "s%-" + maximoReparto + "s\n",
+						" " + pelicula.getId(), "| " + pelicula.getTituloEspanha(), "| " + pelicula.getTituloOriginal(), "| " + Integer.parseInt(formatoAnho.format(pelicula.getAnho())), "| " + pelicula.getDuracion() + " min.", "| " + pelicula.getPais().toString(), "| " + director, "| " + pelicula.getGenero().toString(), "| " + reparto);
+				
+				System.out.printf("%-" + ANCHO_MINIMO_CELDA_ID + "s%-" + maximoTituloEspanha + "s%-" + maximoTituloOriginal + "s%-" + ANCHO_MINIMO_CELDA_ANHO + "s%-" + ANCHO_MINIMO_CELDA_DURACION + "s%-" + maximoPais + "s%-" + maximoDirector + "s%-" + maximoGenero + "s%-" + maximoReparto + "s\n",
+						crearCadenaGuion(ANCHO_MINIMO_CELDA_ID), crearCadenaGuion(maximoTituloEspanha), crearCadenaGuion(maximoTituloOriginal), crearCadenaGuion(ANCHO_MINIMO_CELDA_ANHO), crearCadenaGuion(ANCHO_MINIMO_CELDA_DURACION), crearCadenaGuion(maximoPais), crearCadenaGuion(maximoDirector), crearCadenaGuion(maximoGenero), crearCadenaGuion(maximoReparto));
+				
+			}
+		} catch (LmdbException e) {
+			System.out.println(e.getMessage());
+		}
+		
+		Principal.mostrarMenuPelicula();
+	}
+	
+	/**
+	 * Metodo que muestra todas las peliculas segun un pais.
+	 */
+	private static void mostrarPeliculasPorPais() {
+		List<Pelicula> listaPeliculas;
+		SimpleDateFormat formatoAnho;
+		int maximoTituloEspanha, maximoTituloOriginal, maximoPais, maximoDirector, maximoGenero, maximoReparto, indicePais, contadorPais = 1;
+		String director, reparto;
+		
+		try {
+			for (Pais paisActual : Pais.values()) {
+				System.out.println(contadorPais + " - " + paisActual.toString());
+				contadorPais++;
+			}
+			
+			indicePais = solicitarEntero(">>> Índice de país de la consulta: ");
+			listaPeliculas = peliculaDao.listarPeliculasPorPais(indicePais);
+			formatoAnho = new SimpleDateFormat("yyyy");
+			
+			maximoTituloEspanha = ANCHO_MINIMO_CELDA_TITULO_ESPANHA;
+			maximoTituloOriginal = ANCHO_MINIMO_CELDA_TITULO_ORIGINAL;
+			maximoPais = ANCHO_MINIMO_CELDA_PAIS;
+			maximoDirector = ANCHO_MINIMO_CELDA_DIRECTOR;
+			maximoGenero = ANCHO_MINIMO_CELDA_GENERO;
+			maximoReparto = ANCHO_MINIMO_CELDA_REPARTO;
+			
+			for (Pelicula pelicula : listaPeliculas) {
+				if (pelicula.getTituloEspanha().length() + 2 >= maximoTituloEspanha) {
+					maximoTituloEspanha = pelicula.getTituloEspanha().length() + 3;
+				}
+				
+				if (pelicula.getTituloOriginal().length() + 2 >= maximoTituloOriginal) {
+					maximoTituloOriginal = pelicula.getTituloOriginal().length() + 3;
+				}
+				
+				if (pelicula.getPais().toString().length() + 2 >= maximoPais) {
+					maximoPais = pelicula.getPais().toString().length() + 3;
+				}
+				
+				if (pelicula.getDirector() != null) {
+					if (pelicula.getDirector().getNombre().length() + 2 >= maximoDirector) {
+						maximoDirector = pelicula.getDirector().getNombre().length() + 3;
+					}
+				}
+				
+				if (pelicula.getGenero().toString().length() + 2 >= maximoGenero) {
+					maximoGenero = pelicula.getGenero().toString().length() + 3;
+				}
+				
+				if (pelicula.cadenaActores().length() + 2 >= maximoReparto) {
+					maximoReparto = pelicula.cadenaActores().length() + 3;
+				}
+			}
+			
+			System.out.println(crearCadenaDobleGuion(37 + solicitarPais(indicePais).toString().length()));
+			System.out.println("|| LISTADO DE PELÍCULAS POR PAIS: " + solicitarPais(indicePais).toString() + " ||");
+			System.out.println(crearCadenaDobleGuion(37 + solicitarPais(indicePais).toString().length()));
+			
+			System.out.printf("%-" + ANCHO_MINIMO_CELDA_ID + "s%-" + maximoTituloEspanha + "s%-" + maximoTituloOriginal + "s%-" + ANCHO_MINIMO_CELDA_ANHO + "s%-" + ANCHO_MINIMO_CELDA_DURACION + "s%-" + maximoPais + "s%-" + maximoDirector + "s%-" + maximoGenero + "s%-" + maximoReparto + "s\n",
+					crearCadenaDobleGuion(ANCHO_MINIMO_CELDA_ID), crearCadenaDobleGuion(maximoTituloEspanha), crearCadenaDobleGuion(maximoTituloOriginal), crearCadenaDobleGuion(ANCHO_MINIMO_CELDA_ANHO), crearCadenaDobleGuion(ANCHO_MINIMO_CELDA_DURACION), crearCadenaDobleGuion(maximoPais), crearCadenaDobleGuion(maximoDirector), crearCadenaDobleGuion(maximoGenero), crearCadenaDobleGuion(maximoReparto));
+			
+			System.out.printf("%-" + ANCHO_MINIMO_CELDA_ID + "s%-" + maximoTituloEspanha + "s%-" + maximoTituloOriginal + "s%-" + ANCHO_MINIMO_CELDA_ANHO + "s%-" + ANCHO_MINIMO_CELDA_DURACION + "s%-" + maximoPais + "s%-" + maximoDirector + "s%-" + maximoGenero + "s%-" + maximoReparto + "s\n",
+					" ID", "| TÍTULO EN ESPAÑA", "| TÍTULO ORIGINAL", "| AÑO", "| DURACIÓN", "| PAÍS", "| DIRECTOR", "| GÉNERO", "| REPARTO");
+			
+			System.out.printf("%-" + ANCHO_MINIMO_CELDA_ID + "s%-" + maximoTituloEspanha + "s%-" + maximoTituloOriginal + "s%-" + ANCHO_MINIMO_CELDA_ANHO + "s%-" + ANCHO_MINIMO_CELDA_DURACION + "s%-" + maximoPais + "s%-" + maximoDirector + "s%-" + maximoGenero + "s%-" + maximoReparto + "s\n",
+					crearCadenaDobleGuion(ANCHO_MINIMO_CELDA_ID), crearCadenaDobleGuion(maximoTituloEspanha), crearCadenaDobleGuion(maximoTituloOriginal), crearCadenaDobleGuion(ANCHO_MINIMO_CELDA_ANHO), crearCadenaDobleGuion(ANCHO_MINIMO_CELDA_DURACION), crearCadenaDobleGuion(maximoPais), crearCadenaDobleGuion(maximoDirector), crearCadenaDobleGuion(maximoGenero), crearCadenaDobleGuion(maximoReparto));
+			
+			for (Pelicula pelicula : listaPeliculas) {
+				if (pelicula.getDirector() != null) {
+					director = pelicula.getDirector().getNombre();
+				} else {
+					director = "Sin asignar";
+				}
+				
+				if (pelicula.cadenaActores().length() != 0) {
+					reparto = pelicula.cadenaActores();
+				} else {
+					reparto = "Sin asignar";
+				}
+				
+				System.out.printf("%-" + ANCHO_MINIMO_CELDA_ID + "s%-" + maximoTituloEspanha + "s%-" + maximoTituloOriginal + "s%-" + ANCHO_MINIMO_CELDA_ANHO + "s%-" + ANCHO_MINIMO_CELDA_DURACION + "s%-" + maximoPais + "s%-" + maximoDirector + "s%-" + maximoGenero + "s%-" + maximoReparto + "s\n",
+						" " + pelicula.getId(), "| " + pelicula.getTituloEspanha(), "| " + pelicula.getTituloOriginal(), "| " + Integer.parseInt(formatoAnho.format(pelicula.getAnho())), "| " + pelicula.getDuracion() + " min.", "| " + pelicula.getPais().toString(), "| " + director, "| " + pelicula.getGenero().toString(), "| " + reparto);
+				
+				System.out.printf("%-" + ANCHO_MINIMO_CELDA_ID + "s%-" + maximoTituloEspanha + "s%-" + maximoTituloOriginal + "s%-" + ANCHO_MINIMO_CELDA_ANHO + "s%-" + ANCHO_MINIMO_CELDA_DURACION + "s%-" + maximoPais + "s%-" + maximoDirector + "s%-" + maximoGenero + "s%-" + maximoReparto + "s\n",
+						crearCadenaGuion(ANCHO_MINIMO_CELDA_ID), crearCadenaGuion(maximoTituloEspanha), crearCadenaGuion(maximoTituloOriginal), crearCadenaGuion(ANCHO_MINIMO_CELDA_ANHO), crearCadenaGuion(ANCHO_MINIMO_CELDA_DURACION), crearCadenaGuion(maximoPais), crearCadenaGuion(maximoDirector), crearCadenaGuion(maximoGenero), crearCadenaGuion(maximoReparto));
+				
+			}
+		} catch (LmdbException e) {
+			System.out.println(e.getMessage());
+		}
+		
+		Principal.mostrarMenuPelicula();
+	}
+	
+	/**
+	 * Metodo que muestra todas las peliculas segun un genero.
+	 */
+	private static void mostrarPeliculasPorGenero() {
+		List<Pelicula> listaPeliculas;
+		SimpleDateFormat formatoAnho;
+		int maximoTituloEspanha, maximoTituloOriginal, maximoPais, maximoDirector, maximoGenero, maximoReparto, indiceGenero, contadorGenero = 1;
+		String director, reparto;
+		
+		try {
+			for (Genero generoActual : Genero.values()) {
+				System.out.println(contadorGenero + " - " + generoActual.toString());
+				contadorGenero++;
+			}
+			
+			indiceGenero = solicitarEntero(">>> Índice de género de la consulta: ");
+			listaPeliculas = peliculaDao.listarPeliculasPorGenero(indiceGenero);
+			formatoAnho = new SimpleDateFormat("yyyy");
+			
+			maximoTituloEspanha = ANCHO_MINIMO_CELDA_TITULO_ESPANHA;
+			maximoTituloOriginal = ANCHO_MINIMO_CELDA_TITULO_ORIGINAL;
+			maximoPais = ANCHO_MINIMO_CELDA_PAIS;
+			maximoDirector = ANCHO_MINIMO_CELDA_DIRECTOR;
+			maximoGenero = ANCHO_MINIMO_CELDA_GENERO;
+			maximoReparto = ANCHO_MINIMO_CELDA_REPARTO;
+			
+			for (Pelicula pelicula : listaPeliculas) {
+				if (pelicula.getTituloEspanha().length() + 2 >= maximoTituloEspanha) {
+					maximoTituloEspanha = pelicula.getTituloEspanha().length() + 3;
+				}
+				
+				if (pelicula.getTituloOriginal().length() + 2 >= maximoTituloOriginal) {
+					maximoTituloOriginal = pelicula.getTituloOriginal().length() + 3;
+				}
+				
+				if (pelicula.getPais().toString().length() + 2 >= maximoPais) {
+					maximoPais = pelicula.getPais().toString().length() + 3;
+				}
+				
+				if (pelicula.getDirector() != null) {
+					if (pelicula.getDirector().getNombre().length() + 2 >= maximoDirector) {
+						maximoDirector = pelicula.getDirector().getNombre().length() + 3;
+					}
+				}
+				
+				if (pelicula.getGenero().toString().length() + 2 >= maximoGenero) {
+					maximoGenero = pelicula.getGenero().toString().length() + 3;
+				}
+				
+				if (pelicula.cadenaActores().length() + 2 >= maximoReparto) {
+					maximoReparto = pelicula.cadenaActores().length() + 3;
+				}
+			}
+			
+			System.out.println(crearCadenaDobleGuion(39 + solicitarGenero(indiceGenero).toString().length()));
+			System.out.println("|| LISTADO DE PELÍCULAS POR GENERO: " + solicitarGenero(indiceGenero).toString() + " ||");
+			System.out.println(crearCadenaDobleGuion(39 + solicitarGenero(indiceGenero).toString().length()));
+			
+			System.out.printf("%-" + ANCHO_MINIMO_CELDA_ID + "s%-" + maximoTituloEspanha + "s%-" + maximoTituloOriginal + "s%-" + ANCHO_MINIMO_CELDA_ANHO + "s%-" + ANCHO_MINIMO_CELDA_DURACION + "s%-" + maximoPais + "s%-" + maximoDirector + "s%-" + maximoGenero + "s%-" + maximoReparto + "s\n",
+					crearCadenaDobleGuion(ANCHO_MINIMO_CELDA_ID), crearCadenaDobleGuion(maximoTituloEspanha), crearCadenaDobleGuion(maximoTituloOriginal), crearCadenaDobleGuion(ANCHO_MINIMO_CELDA_ANHO), crearCadenaDobleGuion(ANCHO_MINIMO_CELDA_DURACION), crearCadenaDobleGuion(maximoPais), crearCadenaDobleGuion(maximoDirector), crearCadenaDobleGuion(maximoGenero), crearCadenaDobleGuion(maximoReparto));
+			
+			System.out.printf("%-" + ANCHO_MINIMO_CELDA_ID + "s%-" + maximoTituloEspanha + "s%-" + maximoTituloOriginal + "s%-" + ANCHO_MINIMO_CELDA_ANHO + "s%-" + ANCHO_MINIMO_CELDA_DURACION + "s%-" + maximoPais + "s%-" + maximoDirector + "s%-" + maximoGenero + "s%-" + maximoReparto + "s\n",
+					" ID", "| TÍTULO EN ESPAÑA", "| TÍTULO ORIGINAL", "| AÑO", "| DURACIÓN", "| PAÍS", "| DIRECTOR", "| GÉNERO", "| REPARTO");
+			
+			System.out.printf("%-" + ANCHO_MINIMO_CELDA_ID + "s%-" + maximoTituloEspanha + "s%-" + maximoTituloOriginal + "s%-" + ANCHO_MINIMO_CELDA_ANHO + "s%-" + ANCHO_MINIMO_CELDA_DURACION + "s%-" + maximoPais + "s%-" + maximoDirector + "s%-" + maximoGenero + "s%-" + maximoReparto + "s\n",
+					crearCadenaDobleGuion(ANCHO_MINIMO_CELDA_ID), crearCadenaDobleGuion(maximoTituloEspanha), crearCadenaDobleGuion(maximoTituloOriginal), crearCadenaDobleGuion(ANCHO_MINIMO_CELDA_ANHO), crearCadenaDobleGuion(ANCHO_MINIMO_CELDA_DURACION), crearCadenaDobleGuion(maximoPais), crearCadenaDobleGuion(maximoDirector), crearCadenaDobleGuion(maximoGenero), crearCadenaDobleGuion(maximoReparto));
+			
+			for (Pelicula pelicula : listaPeliculas) {
+				if (pelicula.getDirector() != null) {
+					director = pelicula.getDirector().getNombre();
+				} else {
+					director = "Sin asignar";
+				}
+				
+				if (pelicula.cadenaActores().length() != 0) {
+					reparto = pelicula.cadenaActores();
+				} else {
+					reparto = "Sin asignar";
+				}
+				
+				System.out.printf("%-" + ANCHO_MINIMO_CELDA_ID + "s%-" + maximoTituloEspanha + "s%-" + maximoTituloOriginal + "s%-" + ANCHO_MINIMO_CELDA_ANHO + "s%-" + ANCHO_MINIMO_CELDA_DURACION + "s%-" + maximoPais + "s%-" + maximoDirector + "s%-" + maximoGenero + "s%-" + maximoReparto + "s\n",
+						" " + pelicula.getId(), "| " + pelicula.getTituloEspanha(), "| " + pelicula.getTituloOriginal(), "| " + Integer.parseInt(formatoAnho.format(pelicula.getAnho())), "| " + pelicula.getDuracion() + " min.", "| " + pelicula.getPais().toString(), "| " + director, "| " + pelicula.getGenero().toString(), "| " + reparto);
+				
+				System.out.printf("%-" + ANCHO_MINIMO_CELDA_ID + "s%-" + maximoTituloEspanha + "s%-" + maximoTituloOriginal + "s%-" + ANCHO_MINIMO_CELDA_ANHO + "s%-" + ANCHO_MINIMO_CELDA_DURACION + "s%-" + maximoPais + "s%-" + maximoDirector + "s%-" + maximoGenero + "s%-" + maximoReparto + "s\n",
+						crearCadenaGuion(ANCHO_MINIMO_CELDA_ID), crearCadenaGuion(maximoTituloEspanha), crearCadenaGuion(maximoTituloOriginal), crearCadenaGuion(ANCHO_MINIMO_CELDA_ANHO), crearCadenaGuion(ANCHO_MINIMO_CELDA_DURACION), crearCadenaGuion(maximoPais), crearCadenaGuion(maximoDirector), crearCadenaGuion(maximoGenero), crearCadenaGuion(maximoReparto));
+				
+			}
+		} catch (LmdbException e) {
+			System.out.println(e.getMessage());
+		}
+		
+		Principal.mostrarMenuPelicula();
+	}
+	
+	/**
+	 * Metodo que muestra todas las peliculas segun un rango de duracion.
+	 */
+	private static void mostrarPeliculasPorRangoDuracion() {
+		List<Pelicula> listaPeliculas;
+		SimpleDateFormat formatoAnho;
+		int maximoTituloEspanha, maximoTituloOriginal, maximoPais, maximoDirector, maximoGenero, maximoReparto, duracionMinima, duracionMaxima;
+		String director, reparto;
+		
+		try {
+			duracionMinima = Principal.solicitarEntero(">>> Duración mínima: ");
+			duracionMaxima = Principal.solicitarEntero(">>> Duración máxima: ");
+			listaPeliculas = peliculaDao.listarPeliculasPorRangoDuracion(duracionMinima, duracionMaxima);
+			formatoAnho = new SimpleDateFormat("yyyy");
+			
+			maximoTituloEspanha = ANCHO_MINIMO_CELDA_TITULO_ESPANHA;
+			maximoTituloOriginal = ANCHO_MINIMO_CELDA_TITULO_ORIGINAL;
+			maximoPais = ANCHO_MINIMO_CELDA_PAIS;
+			maximoDirector = ANCHO_MINIMO_CELDA_DIRECTOR;
+			maximoGenero = ANCHO_MINIMO_CELDA_GENERO;
+			maximoReparto = ANCHO_MINIMO_CELDA_REPARTO;
+			
+			for (Pelicula pelicula : listaPeliculas) {
+				if (pelicula.getTituloEspanha().length() + 2 >= maximoTituloEspanha) {
+					maximoTituloEspanha = pelicula.getTituloEspanha().length() + 3;
+				}
+				
+				if (pelicula.getTituloOriginal().length() + 2 >= maximoTituloOriginal) {
+					maximoTituloOriginal = pelicula.getTituloOriginal().length() + 3;
+				}
+				
+				if (pelicula.getPais().toString().length() + 2 >= maximoPais) {
+					maximoPais = pelicula.getPais().toString().length() + 3;
+				}
+				
+				if (pelicula.getDirector() != null) {
+					if (pelicula.getDirector().getNombre().length() + 2 >= maximoDirector) {
+						maximoDirector = pelicula.getDirector().getNombre().length() + 3;
+					}
+				}
+				
+				if (pelicula.getGenero().toString().length() + 2 >= maximoGenero) {
+					maximoGenero = pelicula.getGenero().toString().length() + 3;
+				}
+				
+				if (pelicula.cadenaActores().length() + 2 >= maximoReparto) {
+					maximoReparto = pelicula.cadenaActores().length() + 3;
+				}
+			}
+			
+			System.out.println(crearCadenaDobleGuion(53 + String.valueOf(duracionMinima).length() + String.valueOf(duracionMaxima).length()));
+			System.out.println("|| LISTADO DE PELÍCULAS POR RANGO DE DURACIÓN: " + duracionMinima + " - " + duracionMaxima + " ||");
+			System.out.println(crearCadenaDobleGuion(53 + String.valueOf(duracionMinima).length() + String.valueOf(duracionMaxima).length()));
+			
+			System.out.printf("%-" + ANCHO_MINIMO_CELDA_ID + "s%-" + maximoTituloEspanha + "s%-" + maximoTituloOriginal + "s%-" + ANCHO_MINIMO_CELDA_ANHO + "s%-" + ANCHO_MINIMO_CELDA_DURACION + "s%-" + maximoPais + "s%-" + maximoDirector + "s%-" + maximoGenero + "s%-" + maximoReparto + "s\n",
+					crearCadenaDobleGuion(ANCHO_MINIMO_CELDA_ID), crearCadenaDobleGuion(maximoTituloEspanha), crearCadenaDobleGuion(maximoTituloOriginal), crearCadenaDobleGuion(ANCHO_MINIMO_CELDA_ANHO), crearCadenaDobleGuion(ANCHO_MINIMO_CELDA_DURACION), crearCadenaDobleGuion(maximoPais), crearCadenaDobleGuion(maximoDirector), crearCadenaDobleGuion(maximoGenero), crearCadenaDobleGuion(maximoReparto));
+			
+			System.out.printf("%-" + ANCHO_MINIMO_CELDA_ID + "s%-" + maximoTituloEspanha + "s%-" + maximoTituloOriginal + "s%-" + ANCHO_MINIMO_CELDA_ANHO + "s%-" + ANCHO_MINIMO_CELDA_DURACION + "s%-" + maximoPais + "s%-" + maximoDirector + "s%-" + maximoGenero + "s%-" + maximoReparto + "s\n",
+					" ID", "| TÍTULO EN ESPAÑA", "| TÍTULO ORIGINAL", "| AÑO", "| DURACIÓN", "| PAÍS", "| DIRECTOR", "| GÉNERO", "| REPARTO");
+			
+			System.out.printf("%-" + ANCHO_MINIMO_CELDA_ID + "s%-" + maximoTituloEspanha + "s%-" + maximoTituloOriginal + "s%-" + ANCHO_MINIMO_CELDA_ANHO + "s%-" + ANCHO_MINIMO_CELDA_DURACION + "s%-" + maximoPais + "s%-" + maximoDirector + "s%-" + maximoGenero + "s%-" + maximoReparto + "s\n",
+					crearCadenaDobleGuion(ANCHO_MINIMO_CELDA_ID), crearCadenaDobleGuion(maximoTituloEspanha), crearCadenaDobleGuion(maximoTituloOriginal), crearCadenaDobleGuion(ANCHO_MINIMO_CELDA_ANHO), crearCadenaDobleGuion(ANCHO_MINIMO_CELDA_DURACION), crearCadenaDobleGuion(maximoPais), crearCadenaDobleGuion(maximoDirector), crearCadenaDobleGuion(maximoGenero), crearCadenaDobleGuion(maximoReparto));
+			
+			for (Pelicula pelicula : listaPeliculas) {
+				if (pelicula.getDirector() != null) {
+					director = pelicula.getDirector().getNombre();
+				} else {
+					director = "Sin asignar";
+				}
+				
+				if (pelicula.cadenaActores().length() != 0) {
+					reparto = pelicula.cadenaActores();
+				} else {
+					reparto = "Sin asignar";
+				}
+				
+				System.out.printf("%-" + ANCHO_MINIMO_CELDA_ID + "s%-" + maximoTituloEspanha + "s%-" + maximoTituloOriginal + "s%-" + ANCHO_MINIMO_CELDA_ANHO + "s%-" + ANCHO_MINIMO_CELDA_DURACION + "s%-" + maximoPais + "s%-" + maximoDirector + "s%-" + maximoGenero + "s%-" + maximoReparto + "s\n",
+						" " + pelicula.getId(), "| " + pelicula.getTituloEspanha(), "| " + pelicula.getTituloOriginal(), "| " + Integer.parseInt(formatoAnho.format(pelicula.getAnho())), "| " + pelicula.getDuracion() + " min.", "| " + pelicula.getPais().toString(), "| " + director, "| " + pelicula.getGenero().toString(), "| " + reparto);
 				
 				System.out.printf("%-" + ANCHO_MINIMO_CELDA_ID + "s%-" + maximoTituloEspanha + "s%-" + maximoTituloOriginal + "s%-" + ANCHO_MINIMO_CELDA_ANHO + "s%-" + ANCHO_MINIMO_CELDA_DURACION + "s%-" + maximoPais + "s%-" + maximoDirector + "s%-" + maximoGenero + "s%-" + maximoReparto + "s\n",
 						crearCadenaGuion(ANCHO_MINIMO_CELDA_ID), crearCadenaGuion(maximoTituloEspanha), crearCadenaGuion(maximoTituloOriginal), crearCadenaGuion(ANCHO_MINIMO_CELDA_ANHO), crearCadenaGuion(ANCHO_MINIMO_CELDA_DURACION), crearCadenaGuion(maximoPais), crearCadenaGuion(maximoDirector), crearCadenaGuion(maximoGenero), crearCadenaGuion(maximoReparto));
@@ -1085,6 +1483,49 @@ public class Principal extends Application {
 	}
 	
 	/**
+	 * Metodo que solicita un pais mediante su indice.
+	 * @param indice Indice del pais.
+	 * @return Devuelve el pais solicitado.
+	 */
+	public static Pais solicitarPais(int indice) {
+		Pais pais = null;
+		
+		switch (indice) {
+		case 1:
+			pais = Pais.ESTADOS_UNIDOS;
+			break;
+		case 2:
+			pais = Pais.REINO_UNIDO;
+			break;
+		case 3:
+			pais = Pais.INDIA;
+			break;
+		case 4:
+			pais = Pais.FRANCIA;
+			break;
+		case 5:
+			pais = Pais.ITALIA;
+			break;
+		case 6:
+			pais = Pais.ESPAÑA;
+			break;
+		case 7:
+			pais = Pais.ALEMANIA;
+			break;
+		case 8:
+			pais = Pais.JAPON;
+			break;
+		case 9:
+			pais = Pais.COREA_DEL_SUR;
+			break;
+		default:
+			break;
+		}
+		
+		return pais;
+	}
+	
+	/**
 	 * Metodo que solicita el genero.
 	 * @param mensaje Mensaje al solicitar.
 	 * @return Devuelve el genero solicitado.
@@ -1110,6 +1551,64 @@ public class Principal extends Application {
 		} while (indiceGenero < MINIMO_INDICE_GENERO || indiceGenero > contadorGenero || hayError);
 		
 		switch (indiceGenero) {
+		case 1:
+			genero = Genero.ACCION;
+			break;
+		case 2:
+			genero = Genero.ANIMACION;
+			break;
+		case 3:
+			genero = Genero.AVENTURAS;
+			break;
+		case 4:
+			genero = Genero.BELICO;
+			break;
+		case 5:
+			genero = Genero.CIENCIA_FICCION;
+			break;
+		case 6:
+			genero = Genero.COMEDIA;
+			break;
+		case 7:
+			genero = Genero.DRAMA;
+			break;
+		case 8:
+			genero = Genero.FANTASTICO;
+			break;
+		case 9:
+			genero = Genero.INTRIGA;
+			break;
+		case 10:
+			genero = Genero.MUSICAL;
+			break;
+		case 11:
+			genero = Genero.ROMANCE;
+			break;
+		case 12:
+			genero = Genero.TERROR;
+			break;
+		case 13:
+			genero = Genero.THRILLER;
+			break;
+		case 14:
+			genero = Genero.WESTERN;
+			break;
+		default:
+			break;
+		}
+		
+		return genero;
+	}
+	
+	/**
+	 * Metodo que solicita el genero.
+	 * @param mensaje Mensaje al solicitar.
+	 * @return Devuelve el genero solicitado.
+	 */
+	public static Genero solicitarGenero(int indice) {
+		Genero genero = null;
+		
+		switch (indice) {
 		case 1:
 			genero = Genero.ACCION;
 			break;
