@@ -14,6 +14,10 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import org.hibernate.validator.constraints.NotBlank;
 
+/**
+ * Clase Pelicula.
+ * @author Francisco Rodríguez García.
+ */
 @Entity
 @Table(name="PELICULA")
 public class Pelicula implements Serializable {
@@ -65,9 +69,23 @@ public class Pelicula implements Serializable {
 	private Set<PeliculaActor> actores;
 	
 	// CONSTRUCTORES
+	/**
+	 * Cosntructor vacio de Pelicula.
+	 */
 	public Pelicula() {
 	}
 
+	/**
+	 * Constructor de pelicula con el titulo en Espanha, el original, el anho, la duracion, el pais, el director, el genero, y el reparto.
+	 * @param tituloEspanha Titulo en Espanha de la pelicula.
+	 * @param tituloOriginal Titulo original de la pelicula.
+	 * @param anho Anho de la pelicula.
+	 * @param duracion Duracion de la pelicula.
+	 * @param pais Pais de la pelicula.
+	 * @param director Director de la pelicula.
+	 * @param genero Genero de la pelicula.
+	 * @param actores Reparto de la pelicula.
+	 */
 	public Pelicula(String tituloEspanha, String tituloOriginal, Date anho, int duracion, Pais pais, Director director, Genero genero, Set<PeliculaActor> actores) {
 		this.tituloEspanha = tituloEspanha;
 		this.tituloOriginal = tituloOriginal;
@@ -80,79 +98,154 @@ public class Pelicula implements Serializable {
 	}
 
 	// GETTERS Y SETTERS
+	/**
+	 * Get del ID.
+	 * @return Devuelve el ID.
+	 */
 	public int getId() {
 		return id;
 	}
 
+	/**
+	 * Set del ID.
+	 * @param id ID que establece.
+	 */
 	public void setId(int id) {
 		this.id = id;
 	}
 
+	/**
+	 * Get de la duracion.
+	 * @return Devuelve la duracion.
+	 */
 	public int getDuracion() {
 		return duracion;
 	}
 
+	/**
+	 * Set de la duracion.
+	 * @param duracion Duracion que establece.
+	 */
 	public void setDuracion(int duracion) {
 		this.duracion = duracion;
 	}
 
+	/**
+	 * Get del titulo en Espanha.
+	 * @return Devuelve el titulo en Espanha.
+	 */
 	public String getTituloEspanha() {
 		return tituloEspanha;
 	}
 
+	/**
+	 * Set del titulo en Espanha.
+	 * @param tituloEspanha Titulo en Espanha que establece.
+	 */
 	public void setTituloEspanha(String tituloEspanha) {
 		this.tituloEspanha = tituloEspanha;
 	}
 
+	/**
+	 * Get del titulo original.
+	 * @return Devuelve el titulo original.
+	 */
 	public String getTituloOriginal() {
 		return tituloOriginal;
 	}
 
+	/**
+	 * Set del titulo original.
+	 * @param tituloOriginal Titulo original que establece.
+	 */
 	public void setTituloOriginal(String tituloOriginal) {
 		this.tituloOriginal = tituloOriginal;
 	}
 
+	/**
+	 * Get de anho.
+	 * @return Devuelve el anho.
+	 */
 	public Date getAnho() {
 		return anho;
 	}
 
+	/**
+	 * Set del anho.
+	 * @param anho Anho que establece.
+	 */
 	public void setAnho(Date anho) {
 		this.anho = anho;
 	}
 
+	/**
+	 * Get de la lista PeliculaActor.
+	 * @return Devuelve la lista.
+	 */
 	public Set<PeliculaActor> getActores() {
 		return actores;
 	}
 
+	/**
+	 * Set de la lista PeliculaActor.
+	 * @param actores Lista que establece.
+	 */
 	public void setActores(Set<PeliculaActor> actores) {
 		this.actores = actores;
 	}
 
+	/**
+	 * Get del director.
+	 * @return Devuelve el director.
+	 */
 	public Director getDirector() {
 		return director;
 	}
 
+	/**
+	 * Set del director.
+	 * @param director Director a establecer.
+	 */
 	public void setDirector(Director director) {
 		this.director = director;
 	}
 
+	/**
+	 * Get del genero.
+	 * @return Devuelve el genero.
+	 */
 	public Genero getGenero() {
 		return genero;
 	}
 
+	/**
+	 * Set del genero.
+	 * @param genero Genero a establecer.
+	 */
 	public void setGenero(Genero genero) {
 		this.genero = genero;
 	}
 
+	/**
+	 * Get del pais.
+	 * @return Devuelve el pais.
+	 */
 	public Pais getPais() {
 		return pais;
 	}
 
+	/**
+	 * Set del pais.
+	 * @param pais Pais a establecer.
+	 */
 	public void setPais(Pais pais) {
 		this.pais = pais;
 	}
 
 	// MÉTODOS SOBREESCRITOS
+	/**
+	 * Metodo hashCode sobreescrito.
+	 */
 	@Override
 	public int hashCode() {
 		final int primo = 31;
@@ -161,6 +254,9 @@ public class Pelicula implements Serializable {
 		return resultado;
 	}
 
+	/**
+	 * Metodo equals sobreescrito.
+	 */
 	@Override
 	public boolean equals(Object objeto) {
 		if (this == objeto)
@@ -175,6 +271,9 @@ public class Pelicula implements Serializable {
 		return true;
 	}
 
+	/**
+	 * Metodo toString sobreescrito.
+	 */
 	@Override
 	public String toString() {
 		SimpleDateFormat formatoAnho;
@@ -185,6 +284,10 @@ public class Pelicula implements Serializable {
 	}
 	
 	// MÉTODOS
+	/**
+	 * Metodo que devuelve una cadena con el reparto.
+	 * @return Devuelve una cadena.
+	 */
 	public String cadenaActores() {
 		StringBuilder cadenaActores = new StringBuilder();
 		int totalActores, contador;;
@@ -203,8 +306,12 @@ public class Pelicula implements Serializable {
 		return cadenaActores.toString();
 	}
 	
+	/**
+	 * Metodo que valida el anho con Hibernate.
+	 * @return Devuelve true si es correcto.
+	 */
 	@AssertTrue(message="El año no es válido")
-	private boolean isValidoAnho() {
+	private boolean isAnhoPelicula() {
 		boolean esValido;
 		String expresionRegular = "\\s\\d{4}";
 		

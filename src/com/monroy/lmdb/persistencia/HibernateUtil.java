@@ -7,42 +7,63 @@ import org.hibernate.context.internal.ThreadLocalSessionContext;
 import org.hibernate.service.ServiceRegistry;
 import org.hibernate.service.ServiceRegistryBuilder;
 
+/**
+ * Clase con utilidades de Hibernate.
+ * @author Francisco Rodríguez García
+ */
 public class HibernateUtil {
+	// VARIABLES
+    private static SessionFactory factoriaDeSesion;
 
-    private static SessionFactory sessionFactory;
-
+    // MÉTODOS
+    /**
+     * Metodo que construye la factoria de sesion.
+     */
     public static synchronized void buildSessionFactory() {
-        Configuration configuration = new Configuration();
-        configuration.configure();
-        configuration.setProperty("hibernate.current_session_context_class", "thread");
+        Configuration configuracion = new Configuration();
+        configuracion.configure();
+        configuracion.setProperty("hibernate.current_session_context_class", "thread");
 
-        ServiceRegistry serviceRegistry = new ServiceRegistryBuilder().applySettings(configuration.getProperties()).buildServiceRegistry();
-        sessionFactory = configuration.buildSessionFactory(serviceRegistry);
+        ServiceRegistry servicioDeRegistro = new ServiceRegistryBuilder().applySettings(configuracion.getProperties()).buildServiceRegistry();
+        factoriaDeSesion = configuracion.buildSessionFactory(servicioDeRegistro);
     }
 
+    /**
+     * Metodo que abre la sesion y la vincula a un hilo.
+     */
     public static void openSessionAndBindToThread() {
-        Session session = sessionFactory.openSession();
-        ThreadLocalSessionContext.bind(session);
+        Session sesion = factoriaDeSesion.openSession();
+        ThreadLocalSessionContext.bind(sesion);
     }
-
-
+    
+    /**
+     * Get de la factoria de sesion.
+     * @return Devuelve la factoria de sesion.
+     */
     public static SessionFactory getSessionFactory() {
-        if (sessionFactory==null)  {
+        if (factoriaDeSesion == null)  {
             buildSessionFactory();
         }
-        return sessionFactory;
+        
+        return factoriaDeSesion;
     }
 
+    /**
+     * Metodo que cierra la sesion y la desvincula del hilo.
+     */
     public static void closeSessionAndUnbindFromThread() {
-        Session session = ThreadLocalSessionContext.unbind(sessionFactory);
-        if (session!=null) {
-            session.close();
+        Session sesion = ThreadLocalSessionContext.unbind(factoriaDeSesion);
+        if (sesion != null) {
+            sesion.close();
         }
     }
 
+    /**
+     * Metodo que cierra la factoria de sesion.
+     */
     public static void closeSessionFactory() {
-        if ((sessionFactory!=null) && (sessionFactory.isClosed()==false)) {
-            sessionFactory.close();
+        if ((factoriaDeSesion!=null) && (factoriaDeSesion.isClosed()==false)) {
+            factoriaDeSesion.close();
         }
     }
 }

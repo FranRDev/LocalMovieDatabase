@@ -8,8 +8,18 @@ import com.monroy.lmdb.Principal;
 import com.monroy.lmdb.persistencia.HibernateUtil;
 import com.monroy.lmdb.persistencia.Pelicula;
 
+/**
+ * Clase que gestiona las transacciones de peliculas.
+ * @author Francisco Rodríguez García
+ */
 public class PeliculaDAO extends GenericDAO<Pelicula> {
 	
+	/**
+	 * Metodo que localiza una pelicula por su ID.
+	 * @param id ID para localizar la pelicula.
+	 * @return Devuelve la pelicula localiza.
+	 * @throws LmdbException
+	 */
 	public Pelicula localizar(int id) throws LmdbException {
 		Session sesion = HibernateUtil.getSessionFactory().getCurrentSession();
 
@@ -26,6 +36,11 @@ public class PeliculaDAO extends GenericDAO<Pelicula> {
 		return pelicula;
 	}
 	
+	/**
+	 * Metodo que lista las peliculas.
+	 * @return Devuelve una lista de peliculas.
+	 * @throws LmdbException
+	 */
 	@SuppressWarnings("unchecked")
 	public List<Pelicula> listarPeliculas() throws LmdbException {
 		Session sesion;
@@ -43,6 +58,12 @@ public class PeliculaDAO extends GenericDAO<Pelicula> {
 		return listaPeliculas;
 	}
 	
+	/**
+	 * Metodo que lista las peliculas por anho.
+	 * @param anho Anho por el que lista.
+	 * @return Devuelve una lista de peliculas.
+	 * @throws LmdbException
+	 */
 	@SuppressWarnings("unchecked")
 	public List<Pelicula> listarPeliculasPorAnho(String anho) throws LmdbException {
 		Session sesion;
@@ -60,6 +81,12 @@ public class PeliculaDAO extends GenericDAO<Pelicula> {
 		return listaPeliculas;
 	}
 
+	/**
+	 * Metodo que lista las peliculas por pais.
+	 * @param indicePais Indice de pais por el que lista.
+	 * @return Devuelve una lista de peliculas.
+	 * @throws LmdbException
+	 */
 	@SuppressWarnings("unchecked")
 	public List<Pelicula> listarPeliculasPorPais(int indicePais) throws LmdbException {
 		Session sesion;
@@ -77,6 +104,12 @@ public class PeliculaDAO extends GenericDAO<Pelicula> {
 		return listaPeliculas;
 	}
 
+	/**
+	 * Metodo que lista las peliculas por genero.
+	 * @param indiceGenero Indice de genero por el que lista.
+	 * @return Devuelve una lista de peliculas.
+	 * @throws LmdbException
+	 */
 	@SuppressWarnings("unchecked")
 	public List<Pelicula> listarPeliculasPorGenero(int indiceGenero) throws LmdbException {
 		Session sesion;
@@ -94,6 +127,13 @@ public class PeliculaDAO extends GenericDAO<Pelicula> {
 		return listaPeliculas;
 	}
 
+	/**
+	 * Metodo que lista las peliculas por rango de duracion.
+	 * @param duracionMinima Duracion minima.
+	 * @param duracionMaxima Duracion maxima.
+	 * @return Devuelve una lista.
+	 * @throws LmdbException
+	 */
 	@SuppressWarnings("unchecked")
 	public List<Pelicula> listarPeliculasPorRangoDuracion(int duracionMinima, int duracionMaxima) throws LmdbException {
 		Session sesion;

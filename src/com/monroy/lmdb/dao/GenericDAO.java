@@ -7,7 +7,7 @@ import com.monroy.lmdb.LmdbException;
 import com.monroy.lmdb.persistencia.HibernateUtil;
 
 /**
- * Clase que contiene las transacciones genericas.
+ * Clase que gestiona las transacciones genericas.
  * @author Francisco Rodríguez García
  * @param <T>
  */

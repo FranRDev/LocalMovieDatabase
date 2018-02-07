@@ -17,9 +17,12 @@ import java.util.Date;
 import java.util.List;
 import java.util.Scanner;
 import java.util.Set;
+
+import org.hibernate.NonUniqueObjectException;
 import org.hibernate.Session;
 import com.monroy.lmdb.dao.ActorDAO;
 import com.monroy.lmdb.dao.DirectorDAO;
+import com.monroy.lmdb.dao.GenericDAO;
 import com.monroy.lmdb.dao.PeliculaDAO;
 import com.monroy.lmdb.persistencia.Actor;
 import com.monroy.lmdb.persistencia.Director;
@@ -58,7 +61,7 @@ public class Principal extends Application {
 	private static final int OPCION_MAXIMA_PELICULA = 9;
 	private static final int OPCION_MAXIMA_DIRECTOR = 5;
 	private static final int OPCION_MAXIMA_DIRECTOR_PELICULA = 2;
-	private static final int OPCION_MAXIMA_ACTOR = 5;
+	private static final int OPCION_MAXIMA_ACTOR = 6;
 	private static final int MINIMO_INDICE_PAIS = 1;
 	private static final int MINIMO_INDICE_GENERO = 1;
 	private static final int ANCHO_MINIMO_CELDA_ID = 4;
@@ -78,6 +81,7 @@ public class Principal extends Application {
 	private static Scanner teclado = new Scanner(System.in);
 	@SuppressWarnings("unused")
 	private static Session sesion;
+	private static GenericDAO<PeliculaActor> genericDao = new GenericDAO<>();
 	private static PeliculaDAO peliculaDao = new PeliculaDAO();
 	private static ActorDAO actorDao = new ActorDAO();
 	private static DirectorDAO directorDao = new DirectorDAO();
@@ -86,8 +90,6 @@ public class Principal extends Application {
 	// MÉTODO PRINCIPAL
 	//========================================================================================//
 	public static void main(String[] args) {
-		// VARIABLES
-		
 		//DESARROLLO
 		Principal.configurarSesion();
 		Principal.mostrarMenuPrincipal();
@@ -135,7 +137,7 @@ public class Principal extends Application {
 	}
 	
 	/**
-	 * Metodo que trata la opción del menu principal elegida.
+	 * Metodo que trata la opcion del menu principal elegida.
 	 * @param opcion Opcion a tratar.
 	 */
 	private static void tratarMenuPrincipal(int opcion) {
@@ -1118,7 +1120,8 @@ public class Principal extends Application {
 		System.out.println("[2] Añadir un actor/actriz");
 		System.out.println("[3] Modificar un actor/actriz");
 		System.out.println("[4] Eliminar un actor/actriz");
-		System.out.println("[5] Volver al menú principal");
+		System.out.println("[5] Añadir un actor/actriz a una película");
+		System.out.println("[6] Volver al menú principal");
 		
 		opcion = Principal.solicitarOpcion(OPCION_MAXIMA_ACTOR);
 		Principal.tratarOpcionMenuActor(opcion);
@@ -1131,27 +1134,32 @@ public class Principal extends Application {
 	private static void tratarOpcionMenuActor(int opcion) {
 		switch (opcion) {
 		case 1:
-			// [1] Consultar los actores/actrices.
+			// [1] Consultar los actores/actrices
 			System.out.println();
 			Principal.mostrarActores();
 			break;
 		case 2:
-			// [2] Añadir un actor/actriz.
+			// [2] Añadir un actor/actriz
 			System.out.println();
 			Principal.altaActor();
 			break;
 		case 3:
-			// [3] Modificar un actor/actriz.
+			// [3] Modificar un actor/actriz
 			System.out.println();
 			Principal.modificarActor();
 			break;
 		case 4:
-			// [4] Eliminar un actor/actriz.
+			// [4] Eliminar un actor/actriz
 			System.out.println();
 			Principal.bajaActor();
 			break;
+		case 5:
+			// [5] Añadir un actor/actriz a una película
+			System.out.println();
+			Principal.anhadirActorPelicula();
+			break;
 		default:
-			// [5] Volver al menú principal.
+			// [6] Volver al menú principal
 			System.out.println();
 			Principal.mostrarMenuPrincipal();
 			break;
@@ -1298,6 +1306,64 @@ public class Principal extends Application {
 			
 		} catch (LmdbException e) {
 			System.out.println(e.getMessage());
+		}
+		
+		Principal.mostrarMenuActor();
+	}
+
+	/**
+	 * Metodo que anhade un actor/actriz a una pelicula.
+	 */
+	private static void anhadirActorPelicula() {
+		Actor actor = null;
+		Pelicula pelicula = null;
+		PeliculaActor peliculaActor;
+		int idActor, idPelicula;
+		boolean hayError;
+		
+		do {
+			hayError = false;
+			
+			try {
+				Principal.mostrarActoresSimplificado();
+				idActor = solicitarEntero(">>> ID del actor/actriz: ");
+				actor = actorDao.localizar(idActor);
+				
+			} catch (LmdbException e) {
+				System.out.println(e.getMessage());
+				hayError = true;
+			}
+		} while (hayError);
+		
+		do {
+			hayError = false;
+			
+			try {
+				Principal.mostrarPeliculasSimplifacado();
+				idPelicula = solicitarEntero(">>> ID de la película: ");
+				pelicula = peliculaDao.localizar(idPelicula);
+				
+			} catch (LmdbException e) {
+				System.out.println(e.getMessage());
+				hayError = true;
+			}
+		} while (hayError);
+		
+		
+		try {
+			peliculaActor = new PeliculaActor(actor, pelicula);
+			
+			genericDao.guardar(peliculaActor);
+			
+			System.out.println("Añadido actor/actriz " + actor.getNombre() + " a la película " + pelicula.getTituloEspanha() + ".");
+			
+			//sesion.refresh(actor);
+			//sesion.refresh(pelicula);
+			
+		} catch (LmdbException e) {
+			System.out.println(e.getMessage());
+		} catch (NonUniqueObjectException e) {
+			System.out.println("Ya está ese actor/actriz en esa película.");
 		}
 		
 		Principal.mostrarMenuActor();

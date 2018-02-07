@@ -1,13 +1,15 @@
 -- phpMyAdmin SQL Dump
--- version 4.5.4.1deb2ubuntu2
--- http://www.phpmyadmin.net
+-- version 4.7.4
+-- https://www.phpmyadmin.net/
 --
--- Servidor: localhost
--- Tiempo de generación: 24-01-2018 a las 10:16:51
--- Versión del servidor: 5.7.21-0ubuntu0.16.04.1
--- Versión de PHP: 7.0.22-0ubuntu0.16.04.1
+-- Servidor: 127.0.0.1
+-- Tiempo de generación: 07-02-2018 a las 21:42:43
+-- Versión del servidor: 10.1.26-MariaDB
+-- Versión de PHP: 7.1.9
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+SET AUTOCOMMIT = 0;
+START TRANSACTION;
 SET time_zone = "+00:00";
 
 
@@ -23,21 +25,21 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `ACTOR`
+-- Estructura de tabla para la tabla `actor`
 --
 
-CREATE TABLE `ACTOR` (
+CREATE TABLE `actor` (
   `ID_ACTOR` int(11) NOT NULL,
-  `NOMBRE` varchar(100) NOT NULL
+  `NOMBRE` varchar(150) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `DIRECTOR`
+-- Estructura de tabla para la tabla `director`
 --
 
-CREATE TABLE `DIRECTOR` (
+CREATE TABLE `director` (
   `ID_DIRECTOR` int(11) NOT NULL,
   `NOMBRE` varchar(150) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
@@ -45,28 +47,27 @@ CREATE TABLE `DIRECTOR` (
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `PELICULA`
+-- Estructura de tabla para la tabla `pelicula`
 --
 
-CREATE TABLE `PELICULA` (
+CREATE TABLE `pelicula` (
   `ID_PELICULA` int(11) NOT NULL,
   `TITULO_ESPANHA` varchar(100) NOT NULL,
-  `TITULO_ORIGINAL` int(100) NOT NULL,
+  `TITULO_ORIGINAL` varchar(100) NOT NULL,
   `ANHO` date NOT NULL,
   `DURACION` int(3) NOT NULL,
-  `PAIS` int(15) NOT NULL,
-  `ID_DIRECTOR` int(11) NOT NULL,
-  `SINOPSIS` text NOT NULL,
-  `GENERO` varchar(50) NOT NULL
+  `PAIS` int(3) NOT NULL,
+  `ID_DIRECTOR` int(11) DEFAULT NULL,
+  `GENERO` int(3) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `PELICULA_ACTOR`
+-- Estructura de tabla para la tabla `pelicula_actor`
 --
 
-CREATE TABLE `PELICULA_ACTOR` (
+CREATE TABLE `pelicula_actor` (
   `ID_ACTOR` int(11) NOT NULL,
   `ID_PELICULA` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
@@ -76,28 +77,28 @@ CREATE TABLE `PELICULA_ACTOR` (
 --
 
 --
--- Indices de la tabla `ACTOR`
+-- Indices de la tabla `actor`
 --
-ALTER TABLE `ACTOR`
+ALTER TABLE `actor`
   ADD PRIMARY KEY (`ID_ACTOR`);
 
 --
--- Indices de la tabla `DIRECTOR`
+-- Indices de la tabla `director`
 --
-ALTER TABLE `DIRECTOR`
+ALTER TABLE `director`
   ADD PRIMARY KEY (`ID_DIRECTOR`);
 
 --
--- Indices de la tabla `PELICULA`
+-- Indices de la tabla `pelicula`
 --
-ALTER TABLE `PELICULA`
+ALTER TABLE `pelicula`
   ADD PRIMARY KEY (`ID_PELICULA`),
   ADD KEY `ID_DIRECTOR` (`ID_DIRECTOR`);
 
 --
--- Indices de la tabla `PELICULA_ACTOR`
+-- Indices de la tabla `pelicula_actor`
 --
-ALTER TABLE `PELICULA_ACTOR`
+ALTER TABLE `pelicula_actor`
   ADD PRIMARY KEY (`ID_ACTOR`,`ID_PELICULA`),
   ADD KEY `ID_PELICULA` (`ID_PELICULA`);
 
@@ -106,36 +107,40 @@ ALTER TABLE `PELICULA_ACTOR`
 --
 
 --
--- AUTO_INCREMENT de la tabla `ACTOR`
+-- AUTO_INCREMENT de la tabla `actor`
 --
-ALTER TABLE `ACTOR`
-  MODIFY `ID_ACTOR` int(11) NOT NULL AUTO_INCREMENT;
+ALTER TABLE `actor`
+  MODIFY `ID_ACTOR` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
 --
--- AUTO_INCREMENT de la tabla `DIRECTOR`
+-- AUTO_INCREMENT de la tabla `director`
 --
-ALTER TABLE `DIRECTOR`
+ALTER TABLE `director`
   MODIFY `ID_DIRECTOR` int(11) NOT NULL AUTO_INCREMENT;
+
 --
--- AUTO_INCREMENT de la tabla `PELICULA`
+-- AUTO_INCREMENT de la tabla `pelicula`
 --
-ALTER TABLE `PELICULA`
+ALTER TABLE `pelicula`
   MODIFY `ID_PELICULA` int(11) NOT NULL AUTO_INCREMENT;
+
 --
 -- Restricciones para tablas volcadas
 --
 
 --
--- Filtros para la tabla `PELICULA`
+-- Filtros para la tabla `pelicula`
 --
-ALTER TABLE `PELICULA`
-  ADD CONSTRAINT `PELICULA_ibfk_1` FOREIGN KEY (`ID_DIRECTOR`) REFERENCES `DIRECTOR` (`ID_DIRECTOR`);
+ALTER TABLE `pelicula`
+  ADD CONSTRAINT `PELICULA_ibfk_1` FOREIGN KEY (`ID_DIRECTOR`) REFERENCES `director` (`ID_DIRECTOR`);
 
 --
--- Filtros para la tabla `PELICULA_ACTOR`
+-- Filtros para la tabla `pelicula_actor`
 --
-ALTER TABLE `PELICULA_ACTOR`
-  ADD CONSTRAINT `PELICULA_ACTOR_ibfk_1` FOREIGN KEY (`ID_ACTOR`) REFERENCES `ACTOR` (`ID_ACTOR`),
-  ADD CONSTRAINT `PELICULA_ACTOR_ibfk_2` FOREIGN KEY (`ID_PELICULA`) REFERENCES `PELICULA` (`ID_PELICULA`);
+ALTER TABLE `pelicula_actor`
+  ADD CONSTRAINT `PELICULA_ACTOR_ibfk_1` FOREIGN KEY (`ID_ACTOR`) REFERENCES `actor` (`ID_ACTOR`),
+  ADD CONSTRAINT `PELICULA_ACTOR_ibfk_2` FOREIGN KEY (`ID_PELICULA`) REFERENCES `pelicula` (`ID_PELICULA`);
+COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;

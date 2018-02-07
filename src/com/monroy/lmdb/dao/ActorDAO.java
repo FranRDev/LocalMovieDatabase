@@ -7,8 +7,18 @@ import com.monroy.lmdb.LmdbException;
 import com.monroy.lmdb.persistencia.Actor;
 import com.monroy.lmdb.persistencia.HibernateUtil;
 
+/**
+ * Clase que gestiona las transacciones de los actores/actrices.
+ * @author Francisco Rodríguez García
+ */
 public class ActorDAO extends GenericDAO<Actor> {
 
+	/**
+	 * Metodo que localiza un actor/actriz mediante su ID.
+	 * @param id ID para localizar al actor/actriz.
+	 * @return Devuelve el actor/actriz localizado.
+	 * @throws LmdbException
+	 */
 	public Actor localizar(int id) throws LmdbException {
 		Session sesion = HibernateUtil.getSessionFactory().getCurrentSession();
 
@@ -25,6 +35,11 @@ public class ActorDAO extends GenericDAO<Actor> {
 		return actor;
 	}
 	
+	/**
+	 * Metodo que lista los actores/actrices.
+	 * @return Devuelve una lista de los actores/actrices.
+	 * @throws LmdbException
+	 */
 	@SuppressWarnings("unchecked")
 	public List<Actor> listarActores() throws LmdbException {
 		Session sesion = HibernateUtil.getSessionFactory().getCurrentSession();
