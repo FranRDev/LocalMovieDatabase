@@ -1,7 +1,8 @@
 # LocalMovieDatabase
 - - - -
 ## Descripción
-Proyecto académico de gestión de Películas - Directores/as - Actores/Actrices por terminal, conectando con una base de datos MySQL mediante Hibernate.
+LocalMovieDatabase es un proyecto académico capaz de gestionar la información de Películas, Directores/as y Actores/Actrices, así como sus relaciones, con una Base de Datos mediante Hibernate.
+Permite el alta, baja, modificación y consulta de todas las entidades.
 - - - -
 ## Requisitos
  * JavaFX instalado.
