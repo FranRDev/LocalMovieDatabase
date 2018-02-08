@@ -246,7 +246,7 @@ public class Principal extends Application {
 	 * Metodo que muestra todas las peliculas.
 	 */
 	private static void mostrarPeliculas() {
-		List<Pelicula> listaPeliculas;
+		List<Pelicula> listaPeliculas = null;
 		SimpleDateFormat formatoAnho;
 		int maximoTituloEspanha, maximoTituloOriginal, maximoPais, maximoDirector, maximoGenero, maximoReparto;
 		String director, reparto;
@@ -285,8 +285,10 @@ public class Principal extends Application {
 					maximoGenero = pelicula.getGenero().toString().length() + 3;
 				}
 				
-				if (pelicula.cadenaActores().length() + 2 >= maximoReparto) {
-					maximoReparto = pelicula.cadenaActores().length() + 3;
+				if (pelicula.getActores() != null ) {
+					if (pelicula.cadenaActores().length() + 2 >= maximoReparto) {
+						maximoReparto = pelicula.cadenaActores().length() + 3;
+					}
 				}
 			}
 			
@@ -310,8 +312,12 @@ public class Principal extends Application {
 					director = "Sin asignar";
 				}
 				
-				if (pelicula.cadenaActores().length() != 0) {
-					reparto = pelicula.cadenaActores();
+				if (pelicula.getActores() != null) {
+					if (pelicula.getActores().size() != 0) {
+						reparto = pelicula.cadenaActores();
+					} else {
+						reparto = "Sin asignar";
+					}
 				} else {
 					reparto = "Sin asignar";
 				}
@@ -375,8 +381,10 @@ public class Principal extends Application {
 					maximoGenero = pelicula.getGenero().toString().length() + 3;
 				}
 				
-				if (pelicula.cadenaActores().length() + 2 >= maximoReparto) {
-					maximoReparto = pelicula.cadenaActores().length() + 3;
+				if (pelicula.getActores() != null ) {
+					if (pelicula.cadenaActores().length() + 2 >= maximoReparto) {
+						maximoReparto = pelicula.cadenaActores().length() + 3;
+					}
 				}
 			}
 			
@@ -400,8 +408,12 @@ public class Principal extends Application {
 					director = "Sin asignar";
 				}
 				
-				if (pelicula.cadenaActores().length() != 0) {
-					reparto = pelicula.cadenaActores();
+				if (pelicula.getActores() != null) {
+					if (pelicula.getActores().size() != 0) {
+						reparto = pelicula.cadenaActores();
+					} else {
+						reparto = "Sin asignar";
+					}
 				} else {
 					reparto = "Sin asignar";
 				}
@@ -436,7 +448,7 @@ public class Principal extends Application {
 			}
 			
 			indicePais = solicitarEntero(">>> Índice de país de la consulta: ");
-			listaPeliculas = peliculaDao.listarPeliculasPorPais(indicePais);
+			listaPeliculas = peliculaDao.listarPeliculasPorPais(indicePais - 1);
 			formatoAnho = new SimpleDateFormat("yyyy");
 			
 			maximoTituloEspanha = ANCHO_MINIMO_CELDA_TITULO_ESPANHA;
@@ -469,8 +481,10 @@ public class Principal extends Application {
 					maximoGenero = pelicula.getGenero().toString().length() + 3;
 				}
 				
-				if (pelicula.cadenaActores().length() + 2 >= maximoReparto) {
-					maximoReparto = pelicula.cadenaActores().length() + 3;
+				if (pelicula.getActores() != null ) {
+					if (pelicula.cadenaActores().length() + 2 >= maximoReparto) {
+						maximoReparto = pelicula.cadenaActores().length() + 3;
+					}
 				}
 			}
 			
@@ -494,8 +508,12 @@ public class Principal extends Application {
 					director = "Sin asignar";
 				}
 				
-				if (pelicula.cadenaActores().length() != 0) {
-					reparto = pelicula.cadenaActores();
+				if (pelicula.getActores() != null) {
+					if (pelicula.getActores().size() != 0) {
+						reparto = pelicula.cadenaActores();
+					} else {
+						reparto = "Sin asignar";
+					}
 				} else {
 					reparto = "Sin asignar";
 				}
@@ -530,7 +548,7 @@ public class Principal extends Application {
 			}
 			
 			indiceGenero = solicitarEntero(">>> Índice de género de la consulta: ");
-			listaPeliculas = peliculaDao.listarPeliculasPorGenero(indiceGenero);
+			listaPeliculas = peliculaDao.listarPeliculasPorGenero(indiceGenero - 1);
 			formatoAnho = new SimpleDateFormat("yyyy");
 			
 			maximoTituloEspanha = ANCHO_MINIMO_CELDA_TITULO_ESPANHA;
@@ -563,8 +581,10 @@ public class Principal extends Application {
 					maximoGenero = pelicula.getGenero().toString().length() + 3;
 				}
 				
-				if (pelicula.cadenaActores().length() + 2 >= maximoReparto) {
-					maximoReparto = pelicula.cadenaActores().length() + 3;
+				if (pelicula.getActores() != null ) {
+					if (pelicula.cadenaActores().length() + 2 >= maximoReparto) {
+						maximoReparto = pelicula.cadenaActores().length() + 3;
+					}
 				}
 			}
 			
@@ -588,8 +608,12 @@ public class Principal extends Application {
 					director = "Sin asignar";
 				}
 				
-				if (pelicula.cadenaActores().length() != 0) {
-					reparto = pelicula.cadenaActores();
+				if (pelicula.getActores() != null) {
+					if (pelicula.getActores().size() != 0) {
+						reparto = pelicula.cadenaActores();
+					} else {
+						reparto = "Sin asignar";
+					}
 				} else {
 					reparto = "Sin asignar";
 				}
@@ -653,8 +677,10 @@ public class Principal extends Application {
 					maximoGenero = pelicula.getGenero().toString().length() + 3;
 				}
 				
-				if (pelicula.cadenaActores().length() + 2 >= maximoReparto) {
-					maximoReparto = pelicula.cadenaActores().length() + 3;
+				if (pelicula.getActores() != null ) {
+					if (pelicula.cadenaActores().length() + 2 >= maximoReparto) {
+						maximoReparto = pelicula.cadenaActores().length() + 3;
+					}
 				}
 			}
 			
@@ -678,8 +704,12 @@ public class Principal extends Application {
 					director = "Sin asignar";
 				}
 				
-				if (pelicula.cadenaActores().length() != 0) {
-					reparto = pelicula.cadenaActores();
+				if (pelicula.getActores() != null) {
+					if (pelicula.getActores().size() != 0) {
+						reparto = pelicula.cadenaActores();
+					} else {
+						reparto = "Sin asignar";
+					}
 				} else {
 					reparto = "Sin asignar";
 				}
@@ -743,32 +773,30 @@ public class Principal extends Application {
 		Pais pais;
 		Genero genero;
 		Set<PeliculaActor> actores;
-		boolean hayError;
 		
-		do {
-			hayError = false;
+		System.out.println("======================");
+		System.out.println("|| ALTA DE PELÍCULA ||");
+		System.out.println("======================");
+		
+		try {
+			tituloEspanha = Principal.solicitarCadena(">>> Título en España: ");
+			tituloOriginal = Principal.solicitarCadena(">>> Título original: ");
+			anho = Principal.solicitarAnho(">>> Año: ");
+			duracion = Principal.solicitarEntero(">>> Duración: ");
+			pais = Principal.solicitarPais(">>> Índice de país: ");
+			director = Principal.tratarDirectorPelicula();
+			genero = Principal.solicitarGenero(">>> Índice de género: ");
+			actores = null;
 			
-			try {
-				tituloEspanha = Principal.solicitarCadena(">>> Título en España: ");
-				tituloOriginal = Principal.solicitarCadena(">>> Título original: ");
-				anho = Principal.solicitarAnho(">>> Año: ");
-				duracion = Principal.solicitarEntero(">>> Duración: ");
-				pais = Principal.solicitarPais(">>> Índice de país: ");
-				director = Principal.tratarDirectorPelicula();
-				genero = Principal.solicitarGenero(">>> Índice de género: ");
-				actores = null;
-				
-				nuevaPelicula = new Pelicula(tituloEspanha, tituloOriginal, anho, duracion, pais, director, genero, actores);
-				
-				peliculaDao.guardar(nuevaPelicula);
-				
-				System.out.println("Se ha añadido la película " + tituloEspanha + ".");
-				
-			} catch (LmdbException e) {
-				System.out.println(e.getMessage());
-				hayError = true;
-			}
-		} while (hayError);
+			nuevaPelicula = new Pelicula(tituloEspanha, tituloOriginal, anho, duracion, pais, director, genero, actores);
+			
+			peliculaDao.guardar(nuevaPelicula);
+			
+			System.out.println("Se ha añadido la película " + tituloEspanha + ".");
+			
+		} catch (LmdbException e) {
+			System.out.println(e.getMessage());
+		}
 		
 		Principal.mostrarMenuPelicula();
 	}
@@ -824,9 +852,8 @@ public class Principal extends Application {
 	 */
 	private static Director tratarDirectorPelicula() {
 		Director director = null;
-		int opcion = 0, id;
+		int opcion = 0;
 		boolean hayError;
-		String nombre;
 		
 		do {
 			try {
@@ -849,35 +876,72 @@ public class Principal extends Application {
 		switch (opcion) {
 		case 1:
 			// Añadir director/a existente.
-			Principal.mostrarDirectoresSimplificado();
-			id = Principal.solicitarEntero(">>> ID del director/a: ");
-			
-			try {
-				director = directorDao.localizar(id);
-			} catch (LmdbException e) {
-				System.out.println(e.getMessage());
-				Principal.tratarDirectorPelicula();
-			}
+			director = Principal.anhadirDirectorPelicula(director);
 			break;
 		case 2:
 			// Crear un nuevo director/a.
-			do {
-				hayError = false;
-				
-				try {
-					nombre = solicitarCadena(">>> Nombre del director/a: ");
-					director = new Director(nombre);
-					
-					directorDao.guardar(director);
-				} catch (LmdbException e) {
-					System.out.println(e.getMessage());
-					hayError = true;
-				}
-			} while (hayError);
+			director = Principal.altaDirectorPelicula(director);
 			break;
 		default:
 			break;
 		}
+		
+		return director;
+	}
+
+	/**
+	 * Metodo que anhade un director durante la creacion de la pelicula.
+	 * @param director Director a anhadir.
+	 * @return Devuelve el director.
+	 */
+	private static Director anhadirDirectorPelicula(Director director) {
+		int id;
+		
+		try {
+			if (directorDao.listarDirectores() != null) {
+				Principal.mostrarDirectoresSimplificado();
+				id = Principal.solicitarEntero(">>> ID del director/a: ");
+				
+				try {
+					director = directorDao.localizar(id);
+					
+					
+				} catch (LmdbException e) {
+					System.out.println(e.getMessage());
+					Principal.altaDirectorPelicula(director);
+				}
+			}
+		} catch (LmdbException e1) {
+			System.out.println(">>> Actualmente no hay directores/as, tendrás que crearlo.");
+			Principal.altaDirectorPelicula(director);
+		}
+		
+		return director;
+	}
+
+	/**
+	 * Metodo que da de alta un director durante la creacion de la pelicula.
+	 * @param director Director a crear.
+	 * @return Devuelve el director.
+	 */
+	private static Director altaDirectorPelicula(Director director) {
+		boolean hayError;
+		String nombre;
+		
+		do {
+			hayError = false;
+			
+			try {
+				nombre = solicitarCadena(">>> Nombre del director/a: ");
+				director = new Director(nombre);
+				
+				directorDao.guardar(director);
+				
+			} catch (LmdbException e) {
+				System.out.println(e.getMessage());
+				hayError = true;
+			}
+		} while (hayError);
 		
 		return director;
 	}

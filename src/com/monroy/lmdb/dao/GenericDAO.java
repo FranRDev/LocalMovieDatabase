@@ -31,6 +31,7 @@ public class GenericDAO<T> {
 			
 		} catch (ConstraintViolationException cve) {
 			sesion.getTransaction().rollback();
+			sesion.clear();
 			mensaje = new StringBuilder();
 			
 			mensaje.append("Error. No se ha podido dar de alta:");
@@ -57,6 +58,7 @@ public class GenericDAO<T> {
 			
 		} catch (ConstraintViolationException cve) {
 			sesion.getTransaction().rollback();
+			sesion.clear();
 			mensaje = new StringBuilder();
 			
 			mensaje.append("Error. No se ha podido dar de baja:");
@@ -83,6 +85,7 @@ public class GenericDAO<T> {
 			
 		} catch (ConstraintViolationException cve) {
 			sesion.getTransaction().rollback();
+			sesion.clear();
 			mensaje = new StringBuilder();
 			
 			mensaje.append("Error. No se ha podido actualizar:");

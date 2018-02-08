@@ -8,7 +8,7 @@ import javax.persistence.*;
  * @author Francisco Rodríguez García
  */
 @Entity
-@Table(name="PELICULA_ACTOR")
+@Table(name="pelicula_actor")
 public class PeliculaActor implements Serializable {
 	private static final long serialVersionUID = 1L;
 	

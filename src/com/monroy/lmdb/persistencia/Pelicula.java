@@ -7,7 +7,7 @@ import java.util.Set;
 import java.util.regex.Pattern;
 import javax.persistence.*;
 import javax.validation.Valid;
-import javax.validation.constraints.AssertTrue;
+import javax.validation.constraints.AssertFalse;
 import javax.validation.constraints.Digits;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
@@ -19,7 +19,7 @@ import org.hibernate.validator.constraints.NotBlank;
  * @author Francisco Rodríguez García.
  */
 @Entity
-@Table(name="PELICULA")
+@Table(name="pelicula")
 public class Pelicula implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
@@ -310,10 +310,10 @@ public class Pelicula implements Serializable {
 	 * Metodo que valida el anho con Hibernate.
 	 * @return Devuelve true si es correcto.
 	 */
-	@AssertTrue(message="El año no es válido")
+	@AssertFalse(message="El año no es válido")
 	private boolean isAnhoPelicula() {
 		boolean esValido;
-		String expresionRegular = "\\s\\d{4}";
+		String expresionRegular = "Sat Jan 01 00:00:00 CET \\d{4}";
 		
 		if (Pattern.matches(expresionRegular, this.anho.toString())) {
 			esValido = true;

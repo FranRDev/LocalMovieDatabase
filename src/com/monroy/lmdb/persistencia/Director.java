@@ -12,7 +12,7 @@ import org.hibernate.validator.constraints.NotBlank;
  * @author Francisco Rodríguez García
  */
 @Entity
-@Table(name="DIRECTOR")
+@Table(name="director")
 public class Director implements Serializable {
 	private static final long serialVersionUID = 1L;
 	

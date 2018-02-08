@@ -12,7 +12,7 @@ import org.hibernate.validator.constraints.NotBlank;
  * @author Francisco Rodríguez García
  */
 @Entity
-@Table(name="ACTOR")
+@Table(name="actor")
 public class Actor implements Serializable {
 	private static final long serialVersionUID = 1L;
 
