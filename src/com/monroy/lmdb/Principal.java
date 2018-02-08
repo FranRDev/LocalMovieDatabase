@@ -820,6 +820,7 @@ public class Principal extends Application {
 
 	/**
 	 * Metodo que trata el director al crear una pelicula.
+	 * @return Director Devuelve el director.
 	 */
 	private static Director tratarDirectorPelicula() {
 		Director director = null;
@@ -927,7 +928,7 @@ public class Principal extends Application {
 	
 	/**
 	 * Metodo que trata la opcion del menu directores/as elegida.
-	 * @param opcion
+	 * @param opcion Opcion.
 	 */
 	private static void tratarOpcionMenuDirector(int opcion) {
 		switch (opcion) {
