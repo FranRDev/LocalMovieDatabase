@@ -12,6 +12,7 @@
  */
 package com.monroy.lmdb;
 
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
@@ -32,27 +33,81 @@ import com.monroy.lmdb.persistencia.Pais;
 import com.monroy.lmdb.persistencia.Pelicula;
 import com.monroy.lmdb.persistencia.PeliculaActor;
 import javafx.application.Application;
+import javafx.fxml.FXMLLoader;
 import javafx.stage.Stage;
 import javafx.scene.Scene;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 
 public class Principal extends Application {
+	private Stage escenarioPrincipal;
+    private BorderPane escenaRaiz;
+	
 	// Zona de pruebas JavaFX.
 	@Override
 	public void start(Stage primaryStage) {
 		try {
 			
-			BorderPane root = new BorderPane();
-			Scene scene = new Scene(root,400,400);
-			scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
-			primaryStage.setScene(scene);
-			primaryStage.show();
+			this.escenarioPrincipal = primaryStage;
+	        this.escenarioPrincipal.setTitle("AddressApp");
+	        
+	        iniciarEscenaRaiz();
+	        
+	        iniciarEscenaPrincipal();
 			
 		} catch(Exception e) {
 			e.printStackTrace();
 		}
 	}
+
+	private void iniciarEscenaRaiz() {
+		FXMLLoader cargadorFxml;
+		Scene escena;
+		
+		try {
+			// Se carga el layout principal desde el archivo FXML.
+            cargadorFxml = new FXMLLoader();
+            cargadorFxml.setLocation(Principal.class.getResource("vista/EscenaRaiz.fxml"));
+            escenaRaiz = (BorderPane) cargadorFxml.load();
+
+            // Se muestra la escena que contiene el layout principal.
+            escena = new Scene(escenaRaiz);
+            escenarioPrincipal.setScene(escena);
+
+            // Se da al controlador acceso a la aplicación principal.
+            //RootLayoutController controller = cargadorFxml.getController();
+            //controller.setMainApp(this);
+
+            escenarioPrincipal.show();
+            
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+	}
 	
+	private void iniciarEscenaPrincipal() {
+		FXMLLoader cargadorFxml;
+		AnchorPane escenaPrincipal;
+		
+		try {
+            // Se carga la vista principal.
+            cargadorFxml = new FXMLLoader();
+            cargadorFxml.setLocation(Principal.class.getResource("vista/EscenaPrincipal.fxml"));
+            escenaPrincipal = (AnchorPane) cargadorFxml.load();
+
+            // Se establece la vista principal en el centro del diseño raíz.
+            escenaRaiz.setCenter(escenaPrincipal);
+
+            // Give the controller access to the main app - Da al controlador acceso a la aplicación principal.
+            //PersonOverviewController controller = cargadorFxml.getController();
+            //controller.setMainApp(this);
+            
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+		
+	}
+
 	//========================================================================================//
 	// CONSTANTES
 	//========================================================================================//
@@ -90,10 +145,14 @@ public class Principal extends Application {
 	// MÉTODO PRINCIPAL
 	//========================================================================================//
 	public static void main(String[] args) {
-		//DESARROLLO
-		Principal.configurarSesion();
-		Principal.mostrarMenuPrincipal();
-		Principal.cerrarSesion();
+		// INTERFAZ GRÁFICA.
+		launch(args);
+		
+		// CONSOLA
+		// Descomentar para usar.
+//		Principal.configurarSesion();
+//		Principal.mostrarMenuPrincipal();
+//		Principal.cerrarSesion();
 	}
 
 	//========================================================================================//
@@ -102,6 +161,7 @@ public class Principal extends Application {
 	/**
 	 * Metodo que crea y configura la sesion en Hibernate.
 	 */
+	@SuppressWarnings("unused")
 	private static void configurarSesion() {
 		HibernateUtil.buildSessionFactory();
 		HibernateUtil.openSessionAndBindToThread();
@@ -111,6 +171,7 @@ public class Principal extends Application {
 	/**
 	 * Metodo que cierra la sesion en Hibernate.
 	 */
+	@SuppressWarnings("unused")
 	private static void cerrarSesion() {
 		HibernateUtil.closeSessionFactory();
 	}
