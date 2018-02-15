@@ -14,8 +14,14 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import org.hibernate.validator.constraints.NotBlank;
 
+import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.SimpleIntegerProperty;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
+
 /**
- * Clase Pelicula.
+ * Clase Película.
+ * 
  * @author Francisco Rodríguez García.
  */
 @Entity
@@ -23,7 +29,9 @@ import org.hibernate.validator.constraints.NotBlank;
 public class Pelicula implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
+	//========================================================================================//
 	// ATRIBUTOS
+	//========================================================================================//
 	@Id
 	@Column(name="ID_PELICULA")
 	@GeneratedValue(strategy=GenerationType.AUTO)
@@ -68,23 +76,24 @@ public class Pelicula implements Serializable {
 	@OneToMany(mappedBy="pelicula", cascade=CascadeType.ALL)
 	private Set<PeliculaActor> actores;
 	
+	//========================================================================================//
 	// CONSTRUCTORES
+	//========================================================================================//
 	/**
-	 * Cosntructor vacio de Pelicula.
+	 * Cosntructor vacío de Película.
 	 */
-	public Pelicula() {
-	}
+	public Pelicula() {}
 
 	/**
-	 * Constructor de pelicula con el titulo en Espanha, el original, el anho, la duracion, el pais, el director, el genero, y el reparto.
-	 * @param tituloEspanha Titulo en Espanha de la pelicula.
-	 * @param tituloOriginal Titulo original de la pelicula.
-	 * @param anho Anho de la pelicula.
-	 * @param duracion Duracion de la pelicula.
-	 * @param pais Pais de la pelicula.
-	 * @param director Director de la pelicula.
-	 * @param genero Genero de la pelicula.
-	 * @param actores Reparto de la pelicula.
+	 * Constructor de película con el título en España, el original, el año, la duración, el país, el director, el género, y el reparto.
+	 * @param tituloEspanha Título en España de la película.
+	 * @param tituloOriginal Título original de la película.
+	 * @param anho Año de la película.
+	 * @param duracion Duración de la película.
+	 * @param pais País de la película.
+	 * @param director Director de la película.
+	 * @param genero Género de la película.
+	 * @param actores Reparto de la película.
 	 */
 	public Pelicula(String tituloEspanha, String tituloOriginal, Date anho, int duracion, Pais pais, Director director, Genero genero, Set<PeliculaActor> actores) {
 		this.tituloEspanha = tituloEspanha;
@@ -97,7 +106,9 @@ public class Pelicula implements Serializable {
 		this.actores = actores;
 	}
 
+	//========================================================================================//
 	// GETTERS Y SETTERS
+	//========================================================================================//
 	/**
 	 * Get del ID.
 	 * @return Devuelve el ID.
@@ -241,8 +252,107 @@ public class Pelicula implements Serializable {
 	public void setPais(Pais pais) {
 		this.pais = pais;
 	}
+	
+	//========================================================================================//
+	// GETTERS PROPERTY --> JAVAFX
+	//========================================================================================//
+	/**
+	 * Get del Property de ID.
+	 * @return Devuelve el Property del ID.
+	 */
+	public IntegerProperty getIdProperty() {
+		return new SimpleIntegerProperty(this.id);
+	}
+	
+	/**
+	 * Get del Property de Título en España.
+	 * @return Devuelve el Property del Título en España.
+	 */
+	public StringProperty getTituloEspanhaProperty() {
+		return new SimpleStringProperty(this.tituloEspanha);
+	}
+	
+	/**
+	 * Get del Property de Título original.
+	 * @return Devuelve el Property del Título original.
+	 */
+	public StringProperty getTituloOriginalProperty() {
+		return new SimpleStringProperty(this.tituloOriginal);
+	}
+	
+	/**
+	 * Get del Property de Año.
+	 * @return Devuelve el Property de Año.
+	 */
+	public IntegerProperty getAnhoProperty() {
+		SimpleDateFormat formatoAnho;
+		
+		formatoAnho = new SimpleDateFormat("yyyy");
+		
+		return new SimpleIntegerProperty(Integer.parseInt(formatoAnho.format(this.anho)));
+	}
+	
+	/**
+	 * Get del Property de Duración.
+	 * @return Devuelve el Property de Duración.
+	 */
+	public IntegerProperty getDuracionProperty() {
+		return new SimpleIntegerProperty(this.duracion);
+	}
 
+	/**
+	 * Get del Property de País.
+	 * @return Devuelve el Property de País.
+	 */
+	public StringProperty getPaisProperty() {
+		return new SimpleStringProperty(this.pais.toString());
+	}
+
+	/**
+	 * Get del Property de Director.
+	 * @return Devuelve el Property de Director.
+	 */
+	public StringProperty getDirectorProperty() {
+		String nombreDirector;
+		
+		if (this.director.getNombre() == null) {
+			nombreDirector = "Sin asignar";
+			
+		} else {
+			nombreDirector = this.director.getNombre();
+		}
+		
+		return new SimpleStringProperty(nombreDirector);
+	}
+	
+	/**
+	 * Get del Property de Género.
+	 * @return Devuelve el Property de Género.
+	 */
+	public StringProperty getGeneroProperty() {
+		return new SimpleStringProperty(this.genero.toString());
+	}
+	
+	/**
+	 * Get del Property de Reparto.
+	 * @return Devuelve el Property de Reparto.
+	 */
+	public StringProperty getRepartoProperty() {
+		String cadenaReparto;
+		
+		if (this.actores == null) {
+			cadenaReparto = "Sin asignar";
+			
+		} else {
+			cadenaReparto = this.cadenaActores();
+		}
+		
+		return new SimpleStringProperty(cadenaReparto);
+	}
+
+	//========================================================================================//
 	// MÉTODOS SOBREESCRITOS
+	//========================================================================================//
 	/**
 	 * Metodo hashCode sobreescrito.
 	 */
@@ -283,7 +393,9 @@ public class Pelicula implements Serializable {
 		return tituloEspanha + " (" + tituloOriginal + ") (" + Integer.parseInt(formatoAnho.format(anho)) + ") (" + pais + ")";
 	}
 	
+	//========================================================================================//
 	// MÉTODOS
+	//========================================================================================//
 	/**
 	 * Metodo que devuelve una cadena con el reparto.
 	 * @return Devuelve una cadena.
