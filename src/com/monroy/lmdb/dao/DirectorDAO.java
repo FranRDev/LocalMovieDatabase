@@ -9,10 +9,14 @@ import com.monroy.lmdb.persistencia.HibernateUtil;
 
 /**
  * Clase que gestiona las transacciones de los directores/as.
+ * 
  * @author Francisco Rodríguez García
  */
 public class DirectorDAO extends GenericDAO<Director> {
 	
+	//========================================================================================//
+	// MÉTODOS
+	//========================================================================================//
 	/**
 	 * Metodo que localiza un director/a mediante su ID.
 	 * @param id ID del director/a a localizar.
@@ -31,6 +35,8 @@ public class DirectorDAO extends GenericDAO<Director> {
 		}
 		
 		sesion.getTransaction().commit();
+		
+		sesion.clear();
 
 		return director;
 	}
@@ -48,6 +54,8 @@ public class DirectorDAO extends GenericDAO<Director> {
 		
 		consulta = sesion.createQuery("SELECT p FROM Director p");
 		listaDirectores = consulta.list();
+		
+		sesion.clear();
 		
 		if (listaDirectores.isEmpty()) {
 			throw new LmdbException("No hay directores.");

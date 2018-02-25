@@ -65,7 +65,7 @@ public class Pelicula implements Serializable {
 	
 	@NotNull
 	@Valid
-	@ManyToOne
+	@ManyToOne(fetch=FetchType.EAGER)
 	@JoinColumn(name="ID_DIRECTOR")
 	private Director director;
 	
@@ -73,7 +73,7 @@ public class Pelicula implements Serializable {
 	@Enumerated(EnumType.ORDINAL)
 	private Genero genero;
 	
-	@OneToMany(mappedBy="pelicula", cascade=CascadeType.ALL)
+	@OneToMany(mappedBy="pelicula", cascade=CascadeType.ALL, fetch=FetchType.EAGER)
 	private Set<PeliculaActor> actores;
 	
 	//========================================================================================//
@@ -260,8 +260,8 @@ public class Pelicula implements Serializable {
 	 * Get del Property de ID.
 	 * @return Devuelve el Property del ID.
 	 */
-	public IntegerProperty getIdProperty() {
-		return new SimpleIntegerProperty(this.id);
+	public StringProperty getIdProperty() {
+		return new SimpleStringProperty(String.valueOf(this.id));
 	}
 	
 	/**
@@ -284,12 +284,12 @@ public class Pelicula implements Serializable {
 	 * Get del Property de Año.
 	 * @return Devuelve el Property de Año.
 	 */
-	public IntegerProperty getAnhoProperty() {
+	public StringProperty getAnhoProperty() {
 		SimpleDateFormat formatoAnho;
 		
 		formatoAnho = new SimpleDateFormat("yyyy");
 		
-		return new SimpleIntegerProperty(Integer.parseInt(formatoAnho.format(this.anho)));
+		return new SimpleStringProperty(formatoAnho.format(this.anho));
 	}
 	
 	/**
@@ -402,20 +402,17 @@ public class Pelicula implements Serializable {
 	 */
 	public String cadenaActores() {
 		StringBuilder cadenaActores = new StringBuilder();
-		int totalActores, contador;;
-		
-		totalActores = actores.size();
-		contador = 1;
+		String cadenaFinal = "";
 		
 		for (PeliculaActor peliculaActor : actores) {
-			if (contador != totalActores) {
-				cadenaActores.append(peliculaActor.getActor().getNombre() + ", ");
-			} else {
-				cadenaActores.append(peliculaActor.getActor().getNombre());
-			}
+			cadenaActores.append(peliculaActor.getActor().getNombre() + ", ");
 		}
 		
-		return cadenaActores.toString();
+		if (cadenaActores.length() > 0) {
+			cadenaFinal = cadenaActores.substring(0, (cadenaActores.length() - 2));
+		}
+		
+		return cadenaFinal;
 	}
 	
 	/**

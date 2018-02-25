@@ -8,15 +8,21 @@ import com.monroy.lmdb.persistencia.HibernateUtil;
 
 /**
  * Clase que gestiona las transacciones genericas.
+ * 
  * @author Francisco Rodríguez García
+ * 
  * @param <T> Clase de la entidad.
  */
 public class GenericDAO<T> {
+	//========================================================================================//
 	// VARIABLES
+	//========================================================================================//
 	private Session sesion;
 	private StringBuilder mensaje;
 	
+	//========================================================================================//
 	// MÉTODOS
+	//========================================================================================//
 	/**
 	 * Metodo que guarda una entidad.
 	 * @param entidad Entidad a guardar.
@@ -28,6 +34,8 @@ public class GenericDAO<T> {
 			sesion.beginTransaction();
 			sesion.save(entidad);
 			sesion.getTransaction().commit();
+			
+			sesion.clear();
 			
 		} catch (ConstraintViolationException cve) {
 			sesion.getTransaction().rollback();
@@ -56,6 +64,8 @@ public class GenericDAO<T> {
 			sesion.delete(entidad);
 			sesion.getTransaction().commit();
 			
+			sesion.clear();
+			
 		} catch (ConstraintViolationException cve) {
 			sesion.getTransaction().rollback();
 			sesion.clear();
@@ -82,6 +92,8 @@ public class GenericDAO<T> {
 			sesion.beginTransaction();
 			sesion.update(entidad);
 			sesion.getTransaction().commit();
+			
+			sesion.clear();
 			
 		} catch (ConstraintViolationException cve) {
 			sesion.getTransaction().rollback();

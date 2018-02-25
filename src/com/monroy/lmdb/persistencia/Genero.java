@@ -2,6 +2,7 @@ package com.monroy.lmdb.persistencia;
 
 /**
  * Enumerado Genero.
+ * 
  * @author Francisco Rodríguez García
  */
 public enum Genero {

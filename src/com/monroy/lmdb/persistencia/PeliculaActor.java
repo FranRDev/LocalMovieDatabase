@@ -5,6 +5,7 @@ import javax.persistence.*;
 
 /**
  * Clase PeliculaActor.
+ * 
  * @author Francisco Rodríguez García
  */
 @Entity
@@ -12,18 +13,22 @@ import javax.persistence.*;
 public class PeliculaActor implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
+	//========================================================================================//
 	// ATRIBUTOS
+	//========================================================================================//
 	@Id
-	@ManyToOne
+	@ManyToOne(fetch=FetchType.EAGER)
 	@JoinColumn(name="ID_ACTOR")
 	private Actor actor;
 	
 	@Id
-	@ManyToOne
+	@ManyToOne(fetch=FetchType.EAGER)
 	@JoinColumn(name="ID_PELICULA")
 	private Pelicula pelicula;
 
+	//========================================================================================//
 	// CONSTRUCTORES
+	//========================================================================================//
 	/**
 	 * Constructor de PeliculaActor vacio.
 	 */
@@ -40,7 +45,9 @@ public class PeliculaActor implements Serializable {
 		this.pelicula = pelicula;
 	}
 
+	//========================================================================================//
 	// GETTERS Y SETTERS
+	//========================================================================================//
 	/**
 	 * Get del actor.
 	 * @return Devuelve el actor.
@@ -71,5 +78,16 @@ public class PeliculaActor implements Serializable {
 	 */
 	public void setPelicula(Pelicula pelicula) {
 		this.pelicula = pelicula;
+	}
+
+	//========================================================================================//
+	// MÉTODOS SOBREESCRITOS
+	//========================================================================================//
+	/**
+	 * To String de PeliculaActor.
+	 */
+	@Override
+	public String toString() {
+		return actor.toString();
 	}
 }

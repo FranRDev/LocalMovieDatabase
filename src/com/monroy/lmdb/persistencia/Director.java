@@ -16,7 +16,9 @@ import org.hibernate.validator.constraints.NotBlank;
 public class Director implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
+	//========================================================================================//
 	// ATRIBUTOS
+	//========================================================================================//
 	@Id
 	@Column(name="ID_DIRECTOR")
 	@GeneratedValue(strategy=GenerationType.AUTO)
@@ -28,11 +30,13 @@ public class Director implements Serializable {
 	@Column(name="NOMBRE")
 	private String nombre;
 	
-	@OneToMany(cascade=CascadeType.ALL)
+	@OneToMany(cascade=CascadeType.ALL, fetch=FetchType.EAGER)
 	@JoinColumn(name="ID_DIRECTOR")
 	private List<Pelicula> peliculas;
 
+	//========================================================================================//
 	// CONSTRUCTORES
+	//========================================================================================//
 	/**
 	 * Constructor vacío de Director.
 	 */
@@ -47,7 +51,9 @@ public class Director implements Serializable {
 		this.nombre = nombre;
 	}
 
+	//========================================================================================//
 	// GETTERS Y SETTERS
+	//========================================================================================//
 	/**
 	 * Get del ID.
 	 * @return Devuelve el ID.
@@ -96,7 +102,9 @@ public class Director implements Serializable {
 		this.peliculas = peliculas;
 	}
 	
+	//========================================================================================//
 	// MÉTODOS SOBREESCRITOS
+	//========================================================================================//
 	/**
 	 * Metodo hashCode sobreescrito.
 	 */
@@ -123,5 +131,13 @@ public class Director implements Serializable {
 		if (id != otro.id)
 			return false;
 		return true;
+	}
+
+	/**
+	 * To String de Director.
+	 */
+	@Override
+	public String toString() {
+		return nombre;
 	}
 }

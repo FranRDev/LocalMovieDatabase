@@ -1,0 +1,214 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.5.1.final using JasperReports Library version 6.5.1  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="filmografia" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="cbad4870-445d-4ac6-957c-34196061fd75">
+	<queryString>
+		<![CDATA[]]>
+	</queryString>
+	<field name="tituloEspanha" class="java.lang.String"/>
+	<field name="id" class="java.lang.Integer"/>
+	<field name="tituloOriginal" class="java.lang.String"/>
+	<field name="anho" class="java.util.Date"/>
+	<field name="duracion" class="java.lang.Integer"/>
+	<field name="director" class="java.lang.Object"/>
+	<field name="pais" class="java.lang.Enum"/>
+	<field name="genero" class="java.lang.Enum"/>
+	<field name="actores" class="java.lang.Object"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="243" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="0" width="220" height="78" uuid="bfbeb2d4-7060-4d28-826d-41ae9804ceef"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Katahdin Round" size="26" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Local Movie Database]]></text>
+			</staticText>
+			<image>
+				<reportElement x="420" y="10" width="138" height="60" uuid="4de1053f-a184-41da-986b-7f1f3d1025a0"/>
+				<imageExpression><![CDATA["C:/Users/FranRG96/Descargas/Film-Camera-Logo-1.png"]]></imageExpression>
+			</image>
+			<barChart>
+				<chart evaluationTime="Report">
+					<reportElement x="0" y="90" width="558" height="152" uuid="1f2012d7-e07c-4ff8-a213-4aaf762dab72"/>
+					<chartTitle/>
+					<chartSubtitle/>
+					<chartLegend/>
+				</chart>
+				<categoryDataset>
+					<categorySeries>
+						<seriesExpression><![CDATA["Duración - Películas"]]></seriesExpression>
+						<categoryExpression><![CDATA[$F{id}]]></categoryExpression>
+						<valueExpression><![CDATA[$F{duracion}]]></valueExpression>
+					</categorySeries>
+				</categoryDataset>
+				<barPlot>
+					<plot/>
+					<itemLabel/>
+					<categoryAxisFormat>
+						<axisFormat labelColor="#000000" tickLabelColor="#000000" axisLineColor="#000000"/>
+					</categoryAxisFormat>
+					<valueAxisFormat>
+						<axisFormat labelColor="#000000" tickLabelColor="#000000" axisLineColor="#000000"/>
+					</valueAxisFormat>
+				</barPlot>
+			</barChart>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="5" splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band height="83" splitType="Stretch">
+			<staticText>
+				<reportElement key="" x="0" y="53" width="20" height="30" uuid="34d83ade-a57f-4c11-b09a-aa3e6ecae027">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="213b345c-e404-489c-80e4-992bca6e1334"/>
+				</reportElement>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[ID]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="20" y="53" width="100" height="30" uuid="813b239e-b5fb-46b1-85c2-fa0d3f9e70a0">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="386c3892-80a9-4e2e-a24c-ee94882e457d"/>
+				</reportElement>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Título en España]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="120" y="53" width="100" height="30" uuid="bcd1cf79-1d4b-439d-8eb3-70c773c0c80e">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="35b4a8a6-cf9d-4747-9c47-dba32a4b256b"/>
+				</reportElement>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Título original]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="220" y="53" width="36" height="30" uuid="ef05ac28-86e7-4816-bfc9-20f017ac3e82">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="612720aa-e339-4eaa-aac0-975cd7f24fdc"/>
+				</reportElement>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Fecha]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="256" y="53" width="30" height="30" uuid="9383ccf3-46c6-4eff-bb09-480851febf46">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="ea0801f8-353d-4a79-9f64-0e4be0f10d26"/>
+				</reportElement>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Dur.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="286" y="53" width="54" height="30" uuid="9a8786a4-5c05-47b4-b8cf-965c8a243dce">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="4d8da809-4102-4ae1-bbd4-bc7c9bfa0bf9"/>
+				</reportElement>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[País]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="340" y="53" width="70" height="30" uuid="ed800d63-8dce-4713-9c81-6d55399f7d2d">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="2b119ca2-281b-42bb-8131-0cc9138b8ccb"/>
+				</reportElement>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Director]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="410" y="53" width="60" height="30" uuid="0464e638-ef56-4280-8284-2646b4984a69">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="2cec83f7-e644-4e1f-a8f6-d09055bb6a35"/>
+				</reportElement>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Género]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="470" y="53" width="88" height="30" uuid="9cfbcd3c-8020-4b66-8ad3-55c64f79df12">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="2c50af1a-45d6-4dd3-b535-345768af408b"/>
+				</reportElement>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Reparto]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="65" splitType="Stretch">
+			<textField>
+				<reportElement x="470" y="0" width="88" height="60" uuid="4e837fa6-a2e3-41eb-9769-3b1c62e5cd2f">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="2c50af1a-45d6-4dd3-b535-345768af408b"/>
+				</reportElement>
+				<textFieldExpression><![CDATA[$F{actores}.toString()]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="258" y="0" width="30" height="60" uuid="abb19dba-a9ce-47bb-9924-ac4375f865db">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="ea0801f8-353d-4a79-9f64-0e4be0f10d26"/>
+				</reportElement>
+				<textFieldExpression><![CDATA[$F{duracion}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="220" y="0" width="36" height="60" uuid="ec28b54b-a8d7-42a2-b861-b6fc6438635a">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="612720aa-e339-4eaa-aac0-975cd7f24fdc"/>
+				</reportElement>
+				<textFieldExpression><![CDATA[$F{anho}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="0" y="0" width="20" height="60" uuid="94e1c815-f0cc-46c3-a2df-7f171b409321">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="213b345c-e404-489c-80e4-992bca6e1334"/>
+				</reportElement>
+				<textFieldExpression><![CDATA[$F{id}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="20" y="0" width="100" height="60" uuid="f67ba54d-7562-4f8e-ab85-7d39de0efbb0">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="386c3892-80a9-4e2e-a24c-ee94882e457d"/>
+				</reportElement>
+				<textFieldExpression><![CDATA[$F{tituloEspanha}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="120" y="0" width="100" height="60" uuid="70b0abdd-cce3-4e3f-a322-33ef136e1134">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="35b4a8a6-cf9d-4747-9c47-dba32a4b256b"/>
+				</reportElement>
+				<textFieldExpression><![CDATA[$F{tituloOriginal}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="340" y="0" width="70" height="60" uuid="d3cd73f2-1483-4a55-897c-bf71d6fe2937">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="2b119ca2-281b-42bb-8131-0cc9138b8ccb"/>
+				</reportElement>
+				<textFieldExpression><![CDATA[$F{director}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="410" y="0" width="60" height="60" uuid="0436ca0b-894b-4e56-a5e4-a1ebd1f58d60">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="2cec83f7-e644-4e1f-a8f6-d09055bb6a35"/>
+				</reportElement>
+				<textFieldExpression><![CDATA[$F{genero}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="288" y="0" width="50" height="60" uuid="fe3b6270-8f06-4f90-8b40-446a8816ce18">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="4d8da809-4102-4ae1-bbd4-bc7c9bfa0bf9"/>
+				</reportElement>
+				<textFieldExpression><![CDATA[$F{pais}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="46" splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band height="54" splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band height="42" splitType="Stretch"/>
+	</summary>
+</jasperReport>

@@ -14,6 +14,7 @@ package com.monroy.lmdb;
 
 import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Scanner;
@@ -32,12 +33,19 @@ import com.monroy.lmdb.persistencia.HibernateUtil;
 import com.monroy.lmdb.persistencia.Pais;
 import com.monroy.lmdb.persistencia.Pelicula;
 import com.monroy.lmdb.persistencia.PeliculaActor;
+import com.monroy.lmdb.vista_controlador.ModificarPeliculaControlador;
+import com.monroy.lmdb.vista_controlador.PeliculaControlador;
+
 import javafx.application.Application;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXMLLoader;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
+import javafx.scene.image.Image;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 
@@ -69,26 +77,34 @@ public class Principal extends Application {
 	// VRIABLES ESTÁTICAS
 	//========================================================================================//
 	private static Scanner teclado = new Scanner(System.in);
-	@SuppressWarnings("unused")
-	private static Session sesion;
-	private static GenericDAO<PeliculaActor> genericDao = new GenericDAO<>();
-	private static PeliculaDAO peliculaDao = new PeliculaDAO();
-	private static ActorDAO actorDao = new ActorDAO();
-	private static DirectorDAO directorDao = new DirectorDAO();
-	// Variables estática de JavaFX.
-    private static ObservableList<Pelicula> datosPeliculas = FXCollections.observableArrayList();
+	public static Session sesion;
+	public static GenericDAO<PeliculaActor> genericDao = new GenericDAO<>();
+	public static PeliculaDAO peliculaDao = new PeliculaDAO();
+	public static ActorDAO actorDao = new ActorDAO();
+	public static DirectorDAO directorDao = new DirectorDAO();
+    public static ObservableList<Pelicula> datosPeliculas = FXCollections.observableArrayList();
 	
 	//========================================================================================//
-	// VRIABLES
+	// VARIABLES
 	//========================================================================================//
-	private Stage escenarioPrincipal;
-    private BorderPane escenaRaiz;
+	private Stage escenarioPrincipal, escenarioDialogo;
+	private Scene escenaRaiz, escenaModificarPelicula;
+	private BorderPane panelRaiz;
+	private AnchorPane panelPelicula, panelModificarPelicula;
+    private FXMLLoader cargadorFxml;
+    private PeliculaControlador controladorPelicula;
+    private ModificarPeliculaControlador controladorModificarPelicula;
+    private Alert alerta;
 	
 	//========================================================================================//
 	// MÉTODO PRINCIPAL
 	//========================================================================================//
+    /**
+     * Principal.
+     * @param args Argumentos.
+     */
 	public static void main(String[] args) {
-		// INTERFAZ GRÁFICA.
+		// INTERFAZ GRÁFICA
 		launch(args); // Se llama al método start(), que lanza la interfaz gráfica.
 		
 		// CONSOLA
@@ -97,80 +113,134 @@ public class Principal extends Application {
 		//Principal.mostrarMenuPrincipal();
 		//Principal.cerrarSesion();
 	}
+
+	//========================================================================================//
+	// MÉTODOS DE LA SESIÓN
+	//========================================================================================//
+	/**
+	 * Metodo que crea y configura la sesion en Hibernate.
+	 */
+	public static void configurarSesion() {
+		HibernateUtil.buildSessionFactory();
+		HibernateUtil.openSessionAndBindToThread();
+		sesion = HibernateUtil.getSessionFactory().getCurrentSession();
+	}
+	
+	/**
+	 * Metodo que cierra la sesion en Hibernate.
+	 */
+	public static void cerrarSesion() {
+		HibernateUtil.closeSessionFactory();
+	}
 	
 	//========================================================================================//
   	// LANZAMIENTO JAVA FX
   	//========================================================================================//
+	/**
+	 * Lanza la aplicación gráfica.
+	 */
 	@Override
 	public void start(Stage escenarioPrincipal) {
 		try {
+			Principal.configurarSesion();
+			
+            Principal.cargarDatosPeliculas(); // Se cargan los datos de las películas.
 			
 			this.escenarioPrincipal = escenarioPrincipal;
 	        this.escenarioPrincipal.setTitle("LocalMovieDatabase");
+	        this.escenarioPrincipal.getIcons().add(new Image("file:resources/img/claqueta.png"));
 	        
 	        iniciarEscenaRaiz();
 	        
 	        iniciarEscenaPelicula();
+	        
+	        Principal.cerrarSesion();
 			
 		} catch(Exception e) {
-			// TODO: Tratar excepción.
+			alerta = new Alert(AlertType.ERROR);
+	    	alerta.setTitle("LocalMovieDatabase");
+	    	alerta.setHeaderText("Error");
+	    	alerta.setContentText(e.getMessage());
+	    	alerta.showAndWait();
+	    	
+	    	Principal.cerrarSesion();
+	    	System.exit(0);
 		}
 	}
 
 	//========================================================================================//
   	// MÉTODOS PARA JAVAFX
   	//========================================================================================//
-	private void iniciarEscenaRaiz() {
-		FXMLLoader cargadorFxml;
-		Scene escena;
-		
+	/**
+	 * Inicia la escena Raíz.
+	 * 
+	 * @throws LmdbException Puede devolver una excepción Lmdb.
+	 */
+	private void iniciarEscenaRaiz() throws LmdbException {
 		try {
-			// Se carga el layout principal desde el archivo FXML.
+            // Se inicia el cargardor de FXML.
             cargadorFxml = new FXMLLoader();
-            cargadorFxml.setLocation(Principal.class.getResource("vista_controlador/EscenaRaiz.fxml"));
-            escenaRaiz = (BorderPane) cargadorFxml.load();
 
-            // Se muestra la escena que contiene el layout principal.
-            escena = new Scene(escenaRaiz);
-            escenarioPrincipal.setScene(escena);
+            // Se define el FXML a cargar.
+            cargadorFxml.setLocation(Principal.class.getResource("vista_controlador/Raiz.fxml"));
 
-            // Se da al controlador acceso a la aplicación principal.
-            //RootLayoutController controller = cargadorFxml.getController();
-            //controller.setMainApp(this);
+            // Se carga el FXML en un BorderPane.
+            panelRaiz = (BorderPane) cargadorFxml.load();
 
+            // Se crea una escena con el panel cargado.
+            escenaRaiz = new Scene(panelRaiz);
+            escenaRaiz.getStylesheets().add(Principal.class.getResource("vista_controlador/bootstrap3.css").toExternalForm());
+
+            // Se pone la escena en el escenario.
+            escenarioPrincipal.setScene(escenaRaiz);
+            escenarioPrincipal.setResizable(false);
+
+            // Se muestra el escenario.
             escenarioPrincipal.show();
-            
+
         } catch (IOException e) {
-        	// TODO: Tratar excepción.
+	    	throw new LmdbException("Error al cargar el archivo FXML.");
+
+        } catch (IllegalStateException ex) {
+        	throw new LmdbException("No se encuentra el archivo FXML.");
         }
 	}
 	
-	private void iniciarEscenaPelicula() {
-		FXMLLoader cargadorFxml;
-		AnchorPane escenaPrincipal;
-		
+	/**
+	 * Inicia la escena Pelicula.
+	 * @throws LmdbException Puede devolver una excepción Lmdb.
+	 */
+	private void iniciarEscenaPelicula() throws LmdbException {
 		try {
-            // Se carga la vista principal.
+			// Se inicia el cargador de FXML.
             cargadorFxml = new FXMLLoader();
-            cargadorFxml.setLocation(Principal.class.getResource("vista_controlador/EscenaPelicula.fxml"));
-            escenaPrincipal = (AnchorPane) cargadorFxml.load();
 
-            // Se establece la vista principal en el centro del diseño raíz.
-            escenaRaiz.setCenter(escenaPrincipal);
-            
-            // Se cargan los datos de las películas.
-            Principal.cargarDatosPeliculas();
+            // Se define el FXML a cargar.
+            cargadorFxml.setLocation(Principal.class.getResource("vista_controlador/Pelicula.fxml"));
 
-            // Give the controller access to the main app - Da al controlador acceso a la aplicación principal.
-            //PersonOverviewController controller = cargadorFxml.getController();
-            //controller.setMainApp(this);
-            
+            // Se carga el FXML en un AnchorPane.
+            panelPelicula = (AnchorPane) cargadorFxml.load();
+
+            // Se pone el panel de la descripción de la persona en el centro del panel raíz.
+            panelRaiz.setCenter(panelPelicula);
+
+            // Se da acceso al pricipal desde el controlador.
+            controladorPelicula = cargadorFxml.getController();
+            controladorPelicula.setPrincipal(this);
+
         } catch (IOException e) {
-        	// TODO: Tratar excepción.
+	    	//throw new LmdbException("Error al cargar el archivo FXML este otro.");
+        	e.printStackTrace();
+
+        } catch (IllegalStateException ex) {
+        	throw new LmdbException("No se encuentra el archivo FXML.");
         }
 	}
 
-	private static void cargarDatosPeliculas() {
+	/**
+	 * Carga los datos de las películas en una lista.
+	 */
+	public static void cargarDatosPeliculas() {
 		List<Pelicula> listaPeliculas;
 		
 		try {
@@ -181,33 +251,74 @@ public class Principal extends Application {
 			}
 			
 		} catch (LmdbException e) {
-			// TODO: Tratar excepción.
+			listaPeliculas = new ArrayList<Pelicula>();
 		}
 	}
 	
-	public ObservableList<Pelicula> obtenerDatosPelicula() {
+	/**
+	 * Obtiene los datos de las películas.
+	 * @return Devuelve la lista con los datos de las películas.
+	 */
+	public ObservableList<Pelicula> obtenerDatosPeliculas() {
         return datosPeliculas;
     }
-
-	//========================================================================================//
-	// MÉTODOS DE LA SESIÓN
-	//========================================================================================//
+	
 	/**
-	 * Metodo que crea y configura la sesion en Hibernate.
+	 * Añade una película a la lista.
+	 * @param pelicula Película a añadir.
 	 */
-	@SuppressWarnings("unused")
-	private static void configurarSesion() {
-		HibernateUtil.buildSessionFactory();
-		HibernateUtil.openSessionAndBindToThread();
-		sesion = HibernateUtil.getSessionFactory().getCurrentSession();
+	public static void anhadirPeliculaALista(Pelicula pelicula) {
+		datosPeliculas.add(pelicula);
 	}
 	
 	/**
-	 * Metodo que cierra la sesion en Hibernate.
+	 * Muestra el escenario de ModificarPelicula.
+	 * @param pelicula Pelicula a crear o modificar.
+	 * @return Devuelve un boolean indicando si se ha pulsado el botón OK.
 	 */
-	@SuppressWarnings("unused")
-	private static void cerrarSesion() {
-		HibernateUtil.closeSessionFactory();
+	public boolean mostrarModificarPelicula(Pelicula pelicula) {
+		try {
+			// Se inicia el cargador de FXML.
+            cargadorFxml = new FXMLLoader();
+
+            // Se define el FXML a cargar.
+            cargadorFxml.setLocation(Principal.class.getResource("vista_controlador/ModificarPelicula.fxml"));
+
+            // Se carga el FXML en un AnchorPane.
+            panelModificarPelicula = (AnchorPane) cargadorFxml.load();
+
+            // Se crea y configura el escenario de diálogo.
+            escenarioDialogo = new Stage();
+            escenarioDialogo.setTitle("LocalMovieDatabase");
+            escenarioDialogo.initModality(Modality.WINDOW_MODAL);
+            escenarioDialogo.initOwner(escenarioPrincipal);
+            escenarioDialogo.setResizable(false);
+            escenarioDialogo.getIcons().add(new Image("file:resources/img/claqueta.png"));
+            
+            // Se pone la escena en el escenario.
+            escenaModificarPelicula = new Scene(panelModificarPelicula);
+            escenaModificarPelicula.getStylesheets().add(Principal.class.getResource("vista_controlador/bootstrap3.css").toExternalForm());
+            escenarioDialogo.setScene(escenaModificarPelicula);
+            
+            // Se pasan parámetros al controlador.
+            controladorModificarPelicula = cargadorFxml.getController();
+            controladorModificarPelicula.setEscenarioDialogo(escenarioDialogo);
+            controladorModificarPelicula.setPelicula(pelicula);
+            
+            // Se muestra el escenario.
+            escenarioDialogo.showAndWait();
+
+            // Devuelve si el botón OK ha sido pulsado.
+            return controladorModificarPelicula.okPulsado();
+            
+        } catch (IOException e) {
+        	e.printStackTrace();
+        	return false;
+
+        } catch (IllegalStateException ex) {
+        	ex.printStackTrace();
+        	return false;
+        }
 	}
 	
 	//========================================================================================//
@@ -1517,8 +1628,7 @@ public class Principal extends Application {
 			
 			System.out.println("Añadido actor/actriz " + actor.getNombre() + " a la película " + pelicula.getTituloEspanha() + ".");
 			
-			//sesion.refresh(actor);
-			//sesion.refresh(pelicula);
+			sesion.clear();
 			
 		} catch (LmdbException e) {
 			System.out.println(e.getMessage());

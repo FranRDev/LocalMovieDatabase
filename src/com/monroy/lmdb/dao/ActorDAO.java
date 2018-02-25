@@ -9,10 +9,14 @@ import com.monroy.lmdb.persistencia.HibernateUtil;
 
 /**
  * Clase que gestiona las transacciones de los actores/actrices.
+ * 
  * @author Francisco Rodríguez García
  */
 public class ActorDAO extends GenericDAO<Actor> {
 
+	//========================================================================================//
+	// MÉTODOS
+	//========================================================================================//
 	/**
 	 * Metodo que localiza un actor/actriz mediante su ID.
 	 * @param id ID para localizar al actor/actriz.
@@ -31,6 +35,8 @@ public class ActorDAO extends GenericDAO<Actor> {
 		}
 		
 		sesion.getTransaction().commit();
+		
+		sesion.clear();
 
 		return actor;
 	}
@@ -48,6 +54,8 @@ public class ActorDAO extends GenericDAO<Actor> {
 		
 		consulta = sesion.createQuery("SELECT p FROM Actor p");
 		listaActores = consulta.list();
+		
+		sesion.clear();
 		
 		if (listaActores.isEmpty()) {
 			throw new LmdbException("No hay actores.");

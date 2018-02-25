@@ -12,10 +12,14 @@ import org.hibernate.service.ServiceRegistryBuilder;
  * @author Francisco Rodríguez García
  */
 public class HibernateUtil {
+	//========================================================================================//
 	// VARIABLES
+	//========================================================================================//
     private static SessionFactory factoriaDeSesion;
 
-    // MÉTODOS
+	//========================================================================================//
+	// MÉTODOS
+	//========================================================================================//
     /**
      * Metodo que construye la factoria de sesion.
      */

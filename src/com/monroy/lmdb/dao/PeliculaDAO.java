@@ -10,10 +10,14 @@ import com.monroy.lmdb.persistencia.Pelicula;
 
 /**
  * Clase que gestiona las transacciones de peliculas.
+ * 
  * @author Francisco Rodríguez García
  */
 public class PeliculaDAO extends GenericDAO<Pelicula> {
 	
+	//========================================================================================//
+	// MÉTODOS
+	//========================================================================================//
 	/**
 	 * Metodo que localiza una pelicula por su ID.
 	 * @param id ID para localizar la pelicula.
@@ -32,6 +36,8 @@ public class PeliculaDAO extends GenericDAO<Pelicula> {
 		}
 		
 		sesion.getTransaction().commit();
+		
+		sesion.clear();
 
 		return pelicula;
 	}
@@ -50,6 +56,8 @@ public class PeliculaDAO extends GenericDAO<Pelicula> {
 		sesion = HibernateUtil.getSessionFactory().getCurrentSession();
 		consulta = sesion.createQuery("SELECT p FROM Pelicula p");
 		listaPeliculas = consulta.list();
+		
+		sesion.clear(); // Esta línea me ha salvado la vida... XD
 		
 		if (listaPeliculas.isEmpty()) {
 			throw new LmdbException("No hay películas.");
@@ -74,6 +82,8 @@ public class PeliculaDAO extends GenericDAO<Pelicula> {
 		consulta = sesion.createQuery("SELECT p FROM Pelicula p WHERE anho LIKE '%" + anho + "%'");
 		listaPeliculas = consulta.list();
 		
+		sesion.clear();
+		
 		if (listaPeliculas.isEmpty()) {
 			throw new LmdbException("No hay películas de " + anho + ".");
 		}
@@ -96,6 +106,8 @@ public class PeliculaDAO extends GenericDAO<Pelicula> {
 		sesion = HibernateUtil.getSessionFactory().getCurrentSession();
 		consulta = sesion.createQuery("SELECT p FROM Pelicula p WHERE pais = " + indicePais + "");
 		listaPeliculas = consulta.list();
+		
+		sesion.clear();
 		
 		if (listaPeliculas.isEmpty()) {
 			throw new LmdbException("No hay películas de " + Principal.solicitarPais(indicePais) + ".");
@@ -120,6 +132,8 @@ public class PeliculaDAO extends GenericDAO<Pelicula> {
 		consulta = sesion.createQuery("SELECT p FROM Pelicula p WHERE genero = " + indiceGenero + "");
 		listaPeliculas = consulta.list();
 		
+		sesion.clear();
+		
 		if (listaPeliculas.isEmpty()) {
 			throw new LmdbException("No hay películas de " + Principal.solicitarGenero(indiceGenero) + ".");
 		}
@@ -143,6 +157,8 @@ public class PeliculaDAO extends GenericDAO<Pelicula> {
 		sesion = HibernateUtil.getSessionFactory().getCurrentSession();
 		consulta = sesion.createQuery("SELECT p FROM Pelicula p WHERE duracion BETWEEN " + duracionMinima + " AND " + duracionMaxima + "");
 		listaPeliculas = consulta.list();
+		
+		sesion.clear();
 		
 		if (listaPeliculas.isEmpty()) {
 			throw new LmdbException("No hay películas con duración entre " + duracionMinima + " y " + duracionMaxima + " minutos.");

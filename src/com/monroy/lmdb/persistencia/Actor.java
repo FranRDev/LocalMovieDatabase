@@ -16,7 +16,9 @@ import org.hibernate.validator.constraints.NotBlank;
 public class Actor implements Serializable {
 	private static final long serialVersionUID = 1L;
 
+	//========================================================================================//
 	// ATRIBUTOS
+	//========================================================================================//
 	@Id
 	@Column(name="ID_ACTOR")
 	@GeneratedValue(strategy=GenerationType.AUTO)
@@ -32,7 +34,9 @@ public class Actor implements Serializable {
 	@JoinColumn(name="ID_ACTOR")
 	private List<PeliculaActor> peliculas;
 	
+	//========================================================================================//
 	// CONSTRUCTORES
+	//========================================================================================//
 	/**
 	 * Constructor de Actor sin parametros.
 	 */
@@ -47,7 +51,9 @@ public class Actor implements Serializable {
 		this.nombre = nombre;
 	}
 
+	//========================================================================================//
 	// GETTERS Y SETTERS
+	//========================================================================================//
 	/**
 	 * Get del ID.
 	 * @return Devuelve el ID.
@@ -94,5 +100,16 @@ public class Actor implements Serializable {
 	 */
 	public void setPeliculas(List<PeliculaActor> peliculas) {
 		this.peliculas = peliculas;
+	}
+
+	//========================================================================================//
+	// MÉTODOS SOBREESCRITOS
+	//========================================================================================//
+	/**
+	 * To String de Actor.
+	 */
+	@Override
+	public String toString() {
+		return nombre;
 	}
 }
